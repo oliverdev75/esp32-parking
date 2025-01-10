@@ -8,6 +8,6 @@ APP_DEBUG = True
 DB_CONNECTION = 'mysql'
 DB_HOST = 'localhost'
 DB_PORT = 3333
-DB_USER = 'parking'
+DB_USER = 'parking_db'
 DB_PASSWORD = 'P@ssw0rd'
 DB_NAME = 'parking'
