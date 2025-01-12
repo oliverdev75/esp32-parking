@@ -1,10 +1,26 @@
-from flask import Flask
-from .setup import database
-import config as config
+from flask import Flask, session
+from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
+from .models import *
+from os import environ
+import secrets
 
 app = Flask(__name__)
 
-db_string = f"{config.DB_CONNECTION}://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
-app.config["SQLALCHEMY_DATABASE_URI"] = db_string
+connection_string = f"{environ.get('DB_CONNECTION')}://{environ.get('DB_USER')}:{environ.get('DB_PASSWORD')}@{environ.get('DB_HOST')}:{environ.get('DB_PORT')}/{environ.get('DB_NAME')}"
+app.config.update(
+    SECRET_KEY=secrets.token_hex(16),
+    SESSION_PERMANENT=False,
+    SESSION_TYPE="sqlalchemy",
+    SQLALCHEMY_DATABASE_URI=connection_string
+)
 
-database.db.init_app(app)
+Bootstrap(app)
+
+db = SQLAlchemy(app)
+Session(app)
+with app.app_context():
+    session.app.session_interface.db.create_all()
+
+from .auth import routes
