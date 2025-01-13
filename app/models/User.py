@@ -15,13 +15,13 @@ class User(db.Model):
     role = db.Column(String, nullable=False)
 
     def __init__(
-            self,
-            email,
-            password,
-            fullname,
-            surnames,
-            contact,
-            role,
+        self,
+        email,
+        password,
+        fullname,
+        surnames,
+        contact,
+        role,
     ):
         super().__init__()
         self.email = email
