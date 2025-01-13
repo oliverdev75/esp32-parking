@@ -7,11 +7,21 @@
 {% block content %}
     <main class="min-vh-100 d-flex justify-content-center align-items-center">
         <form class="container justify-content-center" method="post" novalidate>
-            <h1 class="mb-4">Welcome back!</h1>
-            {{ form.hidden_tag() }}
-            {% if message %}
-                <div class="alert alert-danger">{{ message }}</div>
+            {% if username %}
+                <h1 class="mb-4">Welcome back, {{ username }}!</h1>
+            {% else %}
+                <h1 class="mb-4">Welcome back!</h1>
             {% endif %}
+            {% for flash_message in get_flashed_messages() %}
+                <div class="alert alert-info">{{ flash_message }}</div>
+            {% endfor %}
+            {% if message %}
+                <div class="alert alert-{{ message_type }}">{{ message }}</div>
+            {% endif %}
+            {% if user_ip %}
+                <div class="alert alert-info">Your IP is: {{ user_ip }}</div>
+            {% endif %}
+            {{ form.hidden_tag() }}
             <div class="w-auto mb-3 flex gx-3">
                 {{ form.email(class_="form-control w-25", placeholder="Username") }}
             </div>
