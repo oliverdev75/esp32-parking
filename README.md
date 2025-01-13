@@ -6,6 +6,11 @@ Requirements:
 - Python
 - PIP (Python package manager)
 
+Upgrade PIP (optional).
+```sh
+pip install --upgrade PIP
+```
+
 Install all dependencies.
 ```sh
 pip install -r requirements.txt
