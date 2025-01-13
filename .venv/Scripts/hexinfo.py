@@ -1,4 +1,4 @@
-#!D:\ovrsc\Documents\Dev\DAW\projects\esp32-parking\.venv\Scripts\python.exe
+#!D:\DAW2\Python\ESP32\esp32-parking\.venv\Scripts\python.exe
 
 # Copyright (c) 2015 Andrew Fernandes <andrew@fernandes.org>
 # All rights reserved.

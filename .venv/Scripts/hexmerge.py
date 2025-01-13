@@ -1,4 +1,4 @@
-#!D:\ovrsc\Documents\Dev\DAW\projects\esp32-parking\.venv\Scripts\python.exe
+#!D:\DAW2\Python\ESP32\esp32-parking\.venv\Scripts\python.exe
 
 # Copyright (c) 2008-2018 Alexander Belchenko
 # All rights reserved.
