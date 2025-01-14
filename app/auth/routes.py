@@ -4,7 +4,6 @@ from ..models.User import User
 from flask import render_template, redirect, request, session, make_response, flash
 from .LoginForm import LoginForm
 import bcrypt
-import json
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -14,7 +13,7 @@ def login():
     if 'user_ip' in request.cookies:
         user_ip = request.cookies.get('user_ip')
         if 'user' in session:
-            user = json.loads(session.get('user'))
+            user = session.get('user')
     else:
         session.clear()
         res = make_response(redirect('/'))
@@ -30,7 +29,7 @@ def login():
         user = db.session.query(User).filter_by(email = form_email).first()
         if user:
             if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-                session['user'] = json.dumps(user)
+                session['user'] = user
                 message = "Successfuly loged in!"
                 message_type = "success"
             else:
@@ -41,9 +40,7 @@ def login():
             message_type = "danger"
     
     if message:
-        if user_ip:
-            return render_template('information.html', form=form, user_ip=user_ip, message=message, message_type=message_type)
-        elif user and user_ip:
+        if user:
             return render_template(
                 'information.html',
                 form=form,
@@ -56,7 +53,7 @@ def login():
             return render_template(
                 'information.html',
                 form=form,
-                username=user.fullname,
+                user_ip=user_ip,
                 message=message,
                 message_type=message_type
             )
