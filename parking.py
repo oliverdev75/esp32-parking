@@ -110,7 +110,7 @@ def updateUserPassword():
 
 
 try:
-    match (sys.argv[1]):
+    match sys.argv[1]:
         case "migrate":
             migrate()
         case "seed:files":
