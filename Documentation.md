@@ -5,7 +5,26 @@ Es un motor de plantillas 'templates' que permite combinar archivos HTML estáti
 1. **Configura Flask con un archivo HTML:**
 Flask utiliza Jinja por defecto para manejar las plantillas. Los archivos HTML deben estar dentro de una carpeta llamada templates.
 2. **Crear una plantilla HTML**
-3. **Renderiza la plantilla desde Python**
+
+`index.html`
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Hello World</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <h1>Hello World</h1>
+</body>
+
+</html>
+```
+4. **Renderiza la plantilla desde Python**
 
 ```
 @app.route('/RenderTemplateTest', methods=['GET', 'POST'])
