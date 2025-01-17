@@ -31,3 +31,30 @@ Flask utiliza Jinja por defecto para manejar las plantillas. Los archivos HTML d
 def RenderTemplateTest():
     return render_template('index.html')
 ```
+### Expresiones y variables en *Templates*
+Referencia: https://jinja.palletsprojects.com/en/stable/templates/
+
+- {% ... %} para Sentencias
+```
+{% if 1==1 %}
+<p>TRUE</p>
+{% endif %}
+```
+- {{ ... }} para Expresiones que mostrar en el *tempalte*
+```
+<p>{{var_name}}</p>
+```
+
+```
+{% for item in seq %}
+    {{ item }}
+{% endfor %}
+```
+- {# ... #} para Comentarios, el codigo no se incluira en el renderizado final
+```
+{# comentario: comentado ya que no se va a usar el codigo a continuacion.
+    {% for user in users %}
+        ...
+    {% endfor %}
+#}
+```
