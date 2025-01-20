@@ -83,6 +83,10 @@ def seedUser():
     dbInsert([createUser(data)])
 
 
+def updateUser():
+    id = int("Id: ")
+    
+
 def updateUserPassword():
     filterChoice = int(input("Email (1) or id (2): "))
     filteremail = None

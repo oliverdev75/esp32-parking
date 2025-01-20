@@ -42,7 +42,7 @@ def login():
     if message:
         if user:
             return render_template(
-                'information.html',
+                'login.html',
                 form=form,
                 user_ip=user_ip,
                 username=user.fullname,
@@ -51,14 +51,14 @@ def login():
             )
         else:
             return render_template(
-                'information.html',
+                'login.html',
                 form=form,
                 user_ip=user_ip,
                 message=message,
                 message_type=message_type
             )
     return render_template(
-                'information.html',
+                'login.html',
                 form=form,
                 user_ip=user_ip,
             )
