@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 Update database *.env* file configuration with your own config:
 Ex.:
-```sh
+```env
 DB_CONNECTION=mysql+mysqldb
 DB_HOST=localhost
 DB_PORT=3306
