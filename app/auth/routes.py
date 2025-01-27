@@ -34,3 +34,20 @@ def login():
             return render_template('information.html', form=form, message="User doesn't exist!")
         
     return render_template('information.html', form=form)
+
+@app.route('/parking1', methods=['GET', 'POST'])
+def func():
+    parking_count = 15
+    parking_width = 48
+    total_width = parking_count * parking_width
+    offset = total_width / 2
+    topOffset = 16
+    totalVerticalDisplacement = 84
+    vertical_positions = [((abs(parking_count - i) * (totalVerticalDisplacement / parking_count)) + topOffset) for i in range(parking_count)]
+    horizontal_positions = [(i * (parking_width + 8)) + offset for i in range(parking_count)]
+    return render_template("parking_p1.html", 
+                           horizontal_positions=horizontal_positions, 
+                           parking_count=parking_count, 
+                           parking_width=parking_width, 
+                           vertical_positions=vertical_positions
+                           )
