@@ -19,7 +19,10 @@ def dbInsert(data: list):
         db.session.add_all(data)
         db.session.commit()
 
-
+def dbInsertUser(data: list):
+    with app.app_context():
+        db.session.add(data)
+        db.session.commit()
 
 def createUser(data: dict):
     return User(
@@ -30,6 +33,7 @@ def createUser(data: dict):
         ),
         fullname=data['fullname'],
         contact=int(data['contact']),
+        car_plate=data['car_plate'],
         role_id=int(data['role_id']),
         created_at=datetime.datetime.now()
     )
@@ -46,7 +50,8 @@ def seedFiles():
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
     dbInsert(users)
@@ -63,7 +68,8 @@ def seedUsersFile():
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
     except Exception as error:
@@ -77,6 +83,7 @@ def seedUser():
     data["password"] = getpass()
     data["fullname"] = input("Fullname: ")
     data["contact"] = input("Contact: ")
+    data["car_plate"] = input("Car plate: ")
     data["role"] = input("Role: ")
     with app.app_context():
         data["role_id"] = db.session.query(Role).filter(Role.role == data['role']).first().id
@@ -111,12 +118,17 @@ def updateUserPassword():
         })
         db.session.commit()
 
-
+def freshDB():
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
 
 try:
     match sys.argv[1]:
         case "migrate":
             migrate()
+        case "migrate:fresh":
+            freshDB()
         case "seed:files":
             seedFiles()
         case "seed:users":

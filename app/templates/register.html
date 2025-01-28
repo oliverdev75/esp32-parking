@@ -22,15 +22,31 @@
                 <div class="alert alert-info">Your IP is: {{ user_ip }}</div>
             {% endif %}
             {{ form.hidden_tag() }}
+
             <div class="mb-3 flex gx-3">
-                {{ form.email(class_="form-control form-control-lg", placeholder="Username") }}
+                {{ form.email(class_="form-control form-control-lg", placeholder="Email") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.name(class_="form-control form-control-lg", placeholder="Name") }}
             </div>
             <div class="mb-3 flex gx-3">
                 {{ form.password(class_="form-control form-control-lg", placeholder="Password") }}
             </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.repeat_password(class_="form-control form-control-lg", placeholder="Repeat password") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.contact(class_="form-control form-control-lg", placeholder="Phone number") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.car_plate(class_="form-control form-control-lg", placeholder="Car plate") }}
+            </div>
             {{ form.submit(class_="btn btn-primary btn-lg w-100") }}
             <div>
-                <a href="{{ url_for('register') }}">Register</a>
+                {{ result }}
+            </div>
+            <div>
+                <a href="{{ url_for('login') }}">Login</a>
             </div>
         </form>
     </main>

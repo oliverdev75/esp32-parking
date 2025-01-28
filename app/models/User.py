@@ -1,3 +1,5 @@
+from enum import unique
+
 from sqlalchemy import Integer, String, DateTime, ForeignKey, text
 from sqlalchemy.orm import declared_attr
 from dataclasses import dataclass
@@ -14,6 +16,7 @@ class User(db.Model):
     password = db.Column(String(255), nullable=False)
     fullname = db.Column(String(255), nullable=False)
     contact = db.Column(Integer, nullable=False)
+    car_plate = db.Column(String(10), unique=True, nullable=False)
     role_id = db.Column(Integer, ForeignKey(Role.id), nullable=False)
 
     @declared_attr
