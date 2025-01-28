@@ -9,7 +9,6 @@ import bcrypt
 def login():
     form = LoginForm()
     user = None
-    user_ip = ''
     if 'user_ip' in request.cookies:
         user_ip = request.cookies.get('user_ip')
         if 'user' in session:
