@@ -1,0 +1,12 @@
+.nav{
+    background-color: transparent !important;
+    width: 80%;
+    justify-self: center;
+    border-bottom: solid 2px white;
+}
+
+.nav-link:hover{
+    border-radius: 4px;
+    background-color: rgb(0, 0, 0,0.4);
+    transition: background-color, 300ms;
+}

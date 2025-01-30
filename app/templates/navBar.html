@@ -1,10 +1,15 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light nav">
   <div class="container-fluid px-5 py-2">
-    <a class="navbar-brand fs-3" href="#">Parking Project</a>  
+    <a class="navbar-brand fs-3" href="/"><img src="{{ url_for('static', filename='Logo.svg') }}" alt="Logo"></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link fs-5" href="#">Home</a>
+          <a class="nav-link fs-5" href="/">Parking</a>
+            {% if page=='login' %}
+                <a class="nav-link fs-5" href="{{ url_for('static', filename='register.html') }}">Parking</a>
+            {% else %}
+                <a class="nav-link fs-5" href="{{ url_for('static', filename='login.html') }}">Parking</a>
+            {% endif %}
         </li>
       </ul>
     </div>
