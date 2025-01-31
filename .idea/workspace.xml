@@ -4,32 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Comit antibranch">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/esp32-parking.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/forms/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/images/BackgroundMountains.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/images/Logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/login.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/nav.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/register.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/LoginForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/LoginForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/RegisterForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/RegisterForm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/nav.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/nav.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/navBar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navBar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parking.py" beforeDir="false" afterPath="$PROJECT_DIR$/parking.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +95,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Shell Script.ESP32 Parking.executor": "Run",
-    "git-widget-placeholder": "Merging Marcos",
+    "git-widget-placeholder": "Marcos",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/oliver/Documents/Dev/fpprojs/parking/app",
     "node.js.detected.package.eslint": "true",
@@ -139,6 +120,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\esp32-parking\app\forms" />
       <recent name="$PROJECT_DIR$/app/forms" />
     </key>
   </component>
@@ -188,6 +170,7 @@
       <workItem from="1738259449930" duration="428000" />
       <workItem from="1738264495587" duration="95000" />
       <workItem from="1738333457772" duration="271000" />
+      <workItem from="1738337205249" duration="2236000" />
     </task>
     <task id="LOCAL-00001" summary="Some changes">
       <option name="closed" value="true" />
@@ -226,6 +209,16 @@
     <MESSAGE value="Some changes" />
     <MESSAGE value="Comit antibranch" />
     <option name="LAST_COMMIT_MESSAGE" value="Comit antibranch" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/auth/routes.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

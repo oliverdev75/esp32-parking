@@ -1,13 +1,10 @@
 from .. import app
 from .. import db
 from ..models.User import User
-from flask import render_template, redirect, url_for, session
-from app.forms.LoginForm import LoginForm
-from flask import render_template, redirect, request, session, make_response, flash
-from .LoginForm import LoginForm
-from .RegisterForm import RegisterForm
-from flask_bcrypt import Bcrypt
-from flask import Flask
+from flask import url_for
+from flask import render_template, redirect, session
+from ..forms.LoginForm import LoginForm
+from ..forms.RegisterForm import RegisterForm
 import bcrypt
 
 @app.route('/')
@@ -38,6 +35,7 @@ def login():
     return render_template(
         'login.html',
         form=form,
+        page='login',
         username=user.fullname if user else None,
         message=message,
         message_type=message_type
@@ -105,9 +103,9 @@ def register():
                 message_type='danger'
                 page = 'register'
 
-            return render_template(page+'.html', form=form, user_ip=1,message=message, message_type=message_type)
+            return render_template(page+'.html', form=form, page='register',message=message, message_type=message_type)
 
-    return render_template('register.html',form=form)
+    return render_template('register.html',form=form, page='register',)
 
 @app.route('/logout')
 def logout():

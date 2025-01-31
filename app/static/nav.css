@@ -10,3 +10,17 @@
     background-color: rgb(0, 0, 0,0.4);
     transition: background-color, 300ms;
 }
+
+.mid-nav{
+    padding: 0 !important;
+    display: flex !important;
+}
+
+.nav-buttons{
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.nav-buttons a{
+
+}
