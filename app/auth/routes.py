@@ -1,5 +1,6 @@
 from .. import app
 from .. import db
+from ..decorators import logged
 from ..models.User import User
 from flask import render_template, redirect, url_for, session
 from app.forms.LoginForm import LoginForm
@@ -41,6 +42,7 @@ def login():
     )
 
 @app.route('/logout')
+@logged
 def logout():
     session.clear()
     return redirect(url_for('login'))
