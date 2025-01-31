@@ -1,0 +1,113 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>./.env\n./.venv\n./__pycache__\n./**/__pycache__
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision d4796d9c283f72ecd734fa334a6d8bfa8f0a8470)
++++ b/.gitignore	(date 1737486112197)
+@@ -1,4 +1,3 @@
+-./.env
+-./.venv
+-./__pycache__
+-./**/__pycache__
+\ No newline at end of file
++/.env
++/.venv/*
++/__pycache__/*
+\ No newline at end of file
+Index: parking.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#!/bin/env python3\n\nfrom app import app, db\nfrom app.models.User import User\nfrom app.models.Role import Role\nfrom migrations.migrations import migrate\nimport sys, os, csv, bcrypt, datetime\nfrom getpass import getpass\n\n'''\n    This is NOT the entrypoint of the app please to\n    run it execute in the terminal: flask run\n'''\n\nUSERS_DATA_FILE = 'seeders/users.csv'\n\ndef dbInsert(data: list):\n    with app.app_context():\n        db.session.add_all(data)\n        db.session.commit()\n\n\n\ndef createUser(data: dict):\n    return User(\n        email=data['email'],\n        password = bcrypt.hashpw(\n            data['password'].encode('utf-8'),\n            bcrypt.gensalt()\n        ),\n        fullname=data['fullname'],\n        contact=int(data['contact']),\n        role_id=int(data['role_id']),\n        created_at=datetime.datetime.now()\n    )\n\n\ndef seedFiles():\n    users = []\n    for seeder in os.listdir(\"seeders\"):\n        with open(seeder,'r') as data:\n            for model in csv.reader(data):\n                users.append(\n                    createUser({\n                        \"email\": model[0],\n                        \"password\": model[1],\n                        \"fullname\": model[2],\n                        \"contact\": model[3],\n                        \"role_id\": model[4],\n                    })\n                )\n    dbInsert(users)\n\n\ndef seedUsersFile():\n    users = []\n    try:\n        with open(USERS_DATA_FILE,'r') as data:\n            for model in csv.reader(data):\n                users.append(\n                    createUser({\n                        \"email\": model[0],\n                        \"password\": model[1],\n                        \"fullname\": model[2],\n                        \"contact\": model[3],\n                        \"role_id\": model[4],\n                    })\n                )\n    except Exception as error:\n        print(error)\n    dbInsert(users)\n\n\ndef seedUser():\n    data = {}\n    data[\"email\"] = input(\"Email: \")\n    data[\"password\"] = getpass()\n    data[\"fullname\"] = input(\"Fullname: \")\n    data[\"contact\"] = input(\"Contact: \")\n    data[\"role\"] = input(\"Role: \")\n    with app.app_context():\n        data[\"role_id\"] = db.session.query(Role).filter(Role.role == data['role']).first().id\n    dbInsert([createUser(data)])\n\n\ndef updateUser():\n    id = int(\"Id: \")\n    \n\ndef updateUserPassword():\n    filterChoice = int(input(\"Email (1) or id (2): \"))\n    filteremail = None\n    if filterChoice == 1:\n        filter = input(\"Email: \")\n    else:\n        filter = int(input(\"id: \"))\n    \n    password = getpass()\n    query = None\n    with app.app_context():\n        if filterChoice == 1:\n            query = db.session.query(User).filter(User.email == filter)\n        else:\n            query = db.session.query(User).filter(User.id == filter)\n\n        query.update({\n            User.password: bcrypt.hashpw(\n                password.encode('utf-8'),\n                bcrypt.gensalt()\n            )\n        })\n        db.session.commit()\n\n\n\ntry:\n    match sys.argv[1]:\n        case \"migrate\":\n            migrate()\n        case \"seed:files\":\n            seedFiles()\n        case \"seed:users\":\n            seedUsersFile()\n        case \"seed:user\":\n            seedUser()\n        case \"update:password\":\n            updateUserPassword()\n        case _:\n            print(f\"Unknown command \\\"{sys.argv[1]}\\\"\")\nexcept Exception:\n    print(\"You must provide an action: migrate, seed...\")
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/parking.py b/parking.py
+--- a/parking.py	(revision d4796d9c283f72ecd734fa334a6d8bfa8f0a8470)
++++ b/parking.py	(date 1737487510388)
+@@ -14,14 +14,14 @@
+ 
+ USERS_DATA_FILE = 'seeders/users.csv'
+ 
+-def dbInsert(data: list):
++def db_insert(data: list):
+     with app.app_context():
+         db.session.add_all(data)
+         db.session.commit()
+ 
+ 
+ 
+-def createUser(data: dict):
++def create_user(data: dict):
+     return User(
+         email=data['email'],
+         password = bcrypt.hashpw(
+@@ -35,13 +35,13 @@
+     )
+ 
+ 
+-def seedFiles():
++def seed_files():
+     users = []
+     for seeder in os.listdir("seeders"):
+         with open(seeder,'r') as data:
+             for model in csv.reader(data):
+                 users.append(
+-                    createUser({
++                    create_user({
+                         "email": model[0],
+                         "password": model[1],
+                         "fullname": model[2],
+@@ -49,16 +49,16 @@
+                         "role_id": model[4],
+                     })
+                 )
+-    dbInsert(users)
++    db_insert(users)
+ 
+ 
+-def seedUsersFile():
++def seed_users_file():
+     users = []
+     try:
+         with open(USERS_DATA_FILE,'r') as data:
+             for model in csv.reader(data):
+                 users.append(
+-                    createUser({
++                    create_user({
+                         "email": model[0],
+                         "password": model[1],
+                         "fullname": model[2],
+@@ -68,7 +68,7 @@
+                 )
+     except Exception as error:
+         print(error)
+-    dbInsert(users)
++    db_insert(users)
+ 
+ 
+ def seedUser():
+@@ -80,7 +80,7 @@
+     data["role"] = input("Role: ")
+     with app.app_context():
+         data["role_id"] = db.session.query(Role).filter(Role.role == data['role']).first().id
+-    dbInsert([createUser(data)])
++    db_insert([create_user(data)])
+ 
+ 
+ def updateUser():
+@@ -118,9 +118,9 @@
+         case "migrate":
+             migrate()
+         case "seed:files":
+-            seedFiles()
++            seed_files()
+         case "seed:users":
+-            seedUsersFile()
++            seed_users_file()
+         case "seed:user":
+             seedUser()
+         case "update:password":
