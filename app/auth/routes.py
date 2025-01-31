@@ -1,8 +1,8 @@
-from pyexpat.errors import messages
-
 from .. import app
 from .. import db
 from ..models.User import User
+from flask import render_template, redirect, url_for, session
+from app.forms.LoginForm import LoginForm
 from flask import render_template, redirect, request, session, make_response, flash
 from .LoginForm import LoginForm
 from .RegisterForm import RegisterForm
@@ -10,22 +10,14 @@ from flask_bcrypt import Bcrypt
 from flask import Flask
 import bcrypt
 
+@app.route('/')
+def root():
+    return redirect(url_for('login'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     user = None
-    user_ip = ''
-    if 'user_ip' in request.cookies:
-        user_ip = request.cookies.get('user_ip')
-        if 'user' in session:
-            user = session.get('user')
-    else:
-        session.clear()
-        res = make_response(redirect('/'))
-        res.set_cookie('user_ip', request.remote_addr)
-        flash("Session closed, log in please.")
-        return res
-
     message = None
     message_type = None
     if form.validate_on_submit():
@@ -35,31 +27,21 @@ def login():
         if user:
             if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                 session['user'] = user
-                message = "Successfuly loged in!"
-                message_type = "success"
+                return redirect('parking')
             else:
                 message = "Password wrong!"
                 message_type = "danger"
         else:
             message = "User doesn't exist!"
             message_type = "danger"
-    
-    if message:
-        if user:
-            return redirect('parking')
-        else:
-            return render_template(
-                'login.html',
-                form=form,
-                user_ip=user_ip,
-                message=message,
-                message_type=message_type
-            )
+
     return render_template(
-                'login.html',
-                form=form,
-                user_ip=user_ip,
-            )
+        'login.html',
+        form=form,
+        username=user.fullname if user else None,
+        message=message,
+        message_type=message_type
+    )
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -127,5 +109,7 @@ def register():
 
     return render_template('register.html',form=form)
 
-
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
