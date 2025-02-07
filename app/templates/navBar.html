@@ -6,7 +6,7 @@
         <li class="nav-item active nav-buttons">
           <a class="nav-link fs-5" href="/">Parking</a>
             {% if page=='login' %}
-                <a class="nav-link fs-5" href="{{ url_for('register') }}">Sing up</a>
+                <a class="nav-link fs-5" href="{{ url_for('register') }}">Sign up</a>
             {% elif page=='register' %}
                 <a class="nav-link fs-5" href="{{ url_for('login') }}">Log in</a>
             {% else %}
