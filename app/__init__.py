@@ -22,4 +22,5 @@ with app.app_context():
     db.create_all()
 Bootstrap(app)
 
+from . import console
 from .auth import routes
