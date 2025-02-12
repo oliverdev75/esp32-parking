@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+
+{% block title %}
+Parking
+{% endblock %}
+
+{% block content %}
+
+<div id="parking-2" class="parking-bg">
+
+    <div class="parking-container" style="transform-origin: center right; rotate: -5deg;">
+        {% for i in range(16) %}
+        <div class="parking-item parking-item-avaliable"></div>
+        {%endfor%}
+    </div>
+
+    <div style="transform-origin: center right; rotate: -5deg; border-bottom: dashed  black 4px; margin-top: 8px;"></div>
+    <div class="road road-p2"></div>
+
+    <div class="parking-container">
+        <div style="grid-column-start: 1; grid-column-end: 13;"></div>
+        {% for i in range(4) %}
+        <div class="parking-item parking-item-occuped"></div>
+        {%endfor%}
+    </div>
+
+    <div class="parking-container">
+        <div style="grid-column-start: 1; grid-column-end: 9;"></div>
+        {% for i in range(4) %}
+        <div class="parking-item parking-item-reserved"></div>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}

@@ -6,10 +6,6 @@ from flask import render_template, redirect, url_for, session
 from app.forms.LoginForm import LoginForm
 import bcrypt
 
-@app.route('/')
-def root():
-    return redirect(url_for('login'))
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -31,7 +27,7 @@ def login():
         else:
             message = "User doesn't exist!"
             message_type = "danger"
-    
+
 
     return render_template(
         'login.html',
@@ -46,3 +42,11 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/parking1', methods=['GET', 'POST'])
+def parking1():
+    return render_template("parking-1.html")
+
+@app.route('/parking2', methods=['GET', 'POST'])
+def parking2():
+    return render_template("parking-2.html")
