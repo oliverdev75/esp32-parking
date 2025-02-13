@@ -1,0 +1,241 @@
+Index: app/models/Book.py
+===================================================================
+diff --git a/app/models/Book.py b/app/models/Book.py
+deleted file mode 100644
+--- a/app/models/Book.py	(revision 8eecf197b7676f1c5de2e205a5d5484405863385)
++++ /dev/null	(revision 8eecf197b7676f1c5de2e205a5d5484405863385)
+@@ -1,29 +0,0 @@
+-from sqlalchemy import Integer, String, DateTime, ForeignKey, text
+-from sqlalchemy.orm import declared_attr
+-from dataclasses import dataclass
+-from .. import app, db
+-from .Role import Role
+-from .User import User
+-
+-@dataclass
+-class Reservation(db.Model):
+-    __tablename__ = 'reservations'
+-
+-    id = db.Column(Integer, primary_key=True)
+-    created_at = db.Column(DateTime)
+-    user_id = db.Column(Integer, ForeignKey(User.id), nullable=False)
+-    password = db.Column(String(255), nullable=False)
+-    fullname = db.Column(String(255), nullable=False)
+-    contact = db.Column(Integer, nullable=False)
+-    role_id = db.Column(Integer, ForeignKey(Role.id), nullable=False)
+-
+-    @declared_attr
+-    def role(self):
+-        role_name = None
+-        query = text("SELECT * FROM roles WHERE id = :role_id")
+-        with app.app_context():
+-            role_name = db.session.execute(query, params=dict(role_id = self.role_id)).fetchall()
+-        return role_name
+-    
+-    def getAttributes(self):
+-        return self.__dict__
+\ No newline at end of file
+Index: app/models/Reservation.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/models/Reservation.py b/app/models/Reservation.py
+new file mode 100644
+--- /dev/null	(date 1739390148062)
++++ b/app/models/Reservation.py	(date 1739390148062)
+@@ -0,0 +1,18 @@
++from dotenv.parser import Position
++from sqlalchemy import Integer, String, DateTime, ForeignKey, text
++from sqlalchemy.orm import declared_attr
++from dataclasses import dataclass
++from .. import app, db
++from .Role import Role
++from .User import User
++from .Position import Position
++
++@dataclass
++class Reservation(db.Model):
++    __tablename__ = 'reservations'
++
++    id = db.Column(Integer, primary_key=True)
++    created_at = db.Column(DateTime)
++    user_id = db.Column(Integer, ForeignKey(User.id), nullable=False)
++    position_id = db.Column(Integer, ForeignKey(Position.id), nullable=False)
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"Some changes\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/modules.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/app.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/app/decorators.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/app/forms/__init__.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/auth/LoginForm.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/forms/LoginForm.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/auth/routes.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/auth/routes.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\">\n    <execution />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Python Script\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\">\n    <envs>\n      <env key=\"FLASK_APP\" value=\"app\" />\n    </envs>\n    <option name=\"myCustomStartScript\" value=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\" />\n    <option name=\"myEnvs\">\n      <map>\n        <entry key=\"FLASK_APP\" value=\"app\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"Marcos\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;oliverdev75&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/oliverdev75/esp32-parking&quot;,\n    &quot;accountId&quot;: &quot;9676dca1-4304-46f6-a2c5-68a1533b9495&quot;\n  },\n  &quot;recentNewPullRequestHead&quot;: {\n    &quot;server&quot;: {\n      &quot;useHttp&quot;: false,\n      &quot;host&quot;: &quot;github.com&quot;,\n      &quot;port&quot;: null,\n      &quot;suffix&quot;: null\n    },\n    &quot;owner&quot;: &quot;oliverdev75&quot;,\n    &quot;repository&quot;: &quot;esp32-parking&quot;\n  }\n}</component>\n  <component name=\"PhpDebugGeneral\" listening_started=\"true\" />\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"/bin/php\" />\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2rctG6GGXO1oRCzesJhrbq659Yb\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenDatabaseViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"Shell Script.ESP32 Parking.executor\": \"Run\",\n    \"git-widget-placeholder\": \"#3 on login\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"last_opened_file_path\": \"/home/oliver/Documents/Dev/fpprojs/parking/app\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"project.structure.last.edited\": \"Libraries\",\n    \"project.structure.proportion\": \"0.15\",\n    \"project.structure.side.proportion\": \"0.2\",\n    \"settings.editor.selected.configurable\": \"preferences.keymap\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  },\n  \"keyToStringList\": {\n    \"DatabaseDriversLRU\": [\n      \"mysql\"\n    ]\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/app/forms\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"ESP32 Parking\" type=\"ShConfigurationType\">\n      <option name=\"SCRIPT_TEXT\" value=\"flask run\" />\n      <option name=\"INDEPENDENT_SCRIPT_PATH\" value=\"true\" />\n      <option name=\"SCRIPT_PATH\" value=\"\" />\n      <option name=\"SCRIPT_OPTIONS\" value=\"\" />\n      <option name=\"INDEPENDENT_SCRIPT_WORKING_DIRECTORY\" value=\"true\" />\n      <option name=\"SCRIPT_WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"INDEPENDENT_INTERPRETER_PATH\" value=\"true\" />\n      <option name=\"INTERPRETER_PATH\" value=\"/bin/bash\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"EXECUTE_IN_TERMINAL\" value=\"true\" />\n      <option name=\"EXECUTE_SCRIPT_FILE\" value=\"false\" />\n      <envs />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117\" />\n        <option value=\"bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"\" />\n      <created>1737485001431</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1737485001431</updated>\n      <workItem from=\"1737485005034\" duration=\"3751000\" />\n      <workItem from=\"1737554087405\" duration=\"52000\" />\n      <workItem from=\"1737988675728\" duration=\"1180000\" />\n      <workItem from=\"1737989871215\" duration=\"286000\" />\n      <workItem from=\"1737990334642\" duration=\"4035000\" />\n      <workItem from=\"1737994416262\" duration=\"23000\" />\n      <workItem from=\"1738090551056\" duration=\"1327000\" />\n      <workItem from=\"1738091894166\" duration=\"2816000\" />\n      <workItem from=\"1738179495223\" duration=\"1453000\" />\n      <workItem from=\"1738247864888\" duration=\"13000\" />\n      <workItem from=\"1738259449930\" duration=\"428000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Some changes\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737994281046</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737994281046</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Some changes\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738092084240</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738092084240</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"3\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Some changes\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Some changes\" />\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 8eecf197b7676f1c5de2e205a5d5484405863385)
++++ b/.idea/workspace.xml	(date 1739390148045)
+@@ -4,15 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Some changes">
+-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/app.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/app/decorators.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/app/forms/__init__.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
++    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Console commands changed to Flask">
++      <change afterPath="$PROJECT_DIR$/app/models/Position.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/auth/LoginForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/LoginForm.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/routes.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/models/Book.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Reservation.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -57,7 +52,7 @@
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+     &quot;url&quot;: &quot;https://github.com/oliverdev75/esp32-parking&quot;,
+-    &quot;accountId&quot;: &quot;9676dca1-4304-46f6-a2c5-68a1533b9495&quot;
++    &quot;accountId&quot;: &quot;cfb613c6-6b11-4553-8914-5cdf009ee086&quot;
+   },
+   &quot;recentNewPullRequestHead&quot;: {
+     &quot;server&quot;: {
+@@ -83,33 +78,33 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "Shell Script.ESP32 Parking.executor": "Run",
+-    "git-widget-placeholder": "#3 on login",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "/home/oliver/Documents/Dev/fpprojs/parking/app",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "project.structure.last.edited": "Libraries",
+-    "project.structure.proportion": "0.15",
+-    "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "preferences.keymap",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;Shell Script.ESP32 Parking.executor&quot;: &quot;Run&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+-  "keyToStringList": {
+-    "DatabaseDriversLRU": [
+-      "mysql"
++  &quot;keyToStringList&quot;: {
++    &quot;DatabaseDriversLRU&quot;: [
++      &quot;mysql&quot;
+     ]
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$" />
+@@ -138,8 +133,8 @@
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
+-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
++        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-PY-243.23654.177" />
++        <option value="bundled-python-sdk-91d3a02ef49d-43b77aa2d136-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.23654.177" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -162,6 +157,12 @@
+       <workItem from="1738179495223" duration="1453000" />
+       <workItem from="1738247864888" duration="13000" />
+       <workItem from="1738259449930" duration="428000" />
++      <workItem from="1739203158818" duration="385000" />
++      <workItem from="1739203552731" duration="1192000" />
++      <workItem from="1739302074173" duration="1700000" />
++      <workItem from="1739348095786" duration="480000" />
++      <workItem from="1739383456529" duration="116000" />
++      <workItem from="1739388674037" duration="1116000" />
+     </task>
+     <task id="LOCAL-00001" summary="Some changes">
+       <option name="closed" value="true" />
+@@ -179,7 +180,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738092084240</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Console commands changed to Flask">
++      <option name="closed" value="true" />
++      <created>1739204737728</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1739204737728</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -198,7 +207,8 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Some changes" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Some changes" />
++    <MESSAGE value="Console commands changed to Flask" />
++    <option name="LAST_COMMIT_MESSAGE" value="Console commands changed to Flask" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
+Index: app/models/Position.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/models/Position.py b/app/models/Position.py
+new file mode 100644
+--- /dev/null	(date 1739390148068)
++++ b/app/models/Position.py	(date 1739390148068)
+@@ -0,0 +1,18 @@
++from dotenv.parser import Position
++from sqlalchemy import Integer, String, DateTime, ForeignKey, text
++from sqlalchemy.orm import declared_attr
++from dataclasses import dataclass
++from .. import app, db
++from .Role import Role
++from .User import User
++
++
++@dataclass
++class Position(db.Model):
++    __tablename__ = 'reservations'
++
++    id = db.Column(Integer, primary_key=True)
++    created_at = db.Column(DateTime)
++    code = db.Column(String)
++    floor = db.Column(Integer)
++    
+\ No newline at end of file

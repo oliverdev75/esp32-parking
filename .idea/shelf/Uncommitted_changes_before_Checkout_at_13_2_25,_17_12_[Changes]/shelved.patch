@@ -1,0 +1,294 @@
+Index: app/templates/parking-2.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"template.html\" %}\n\n{% block title %}\nParking\n{% endblock %}\n\n{% block content %}\n\n<div id=\"parking-2\" class=\"parking-bg\">\n\n    <div class=\"parking-container\" style=\"transform-origin: center right; rotate: -5deg;\">\n        {% for i in range(16) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n\n    <div style=\"transform-origin: center right; rotate: -5deg; border-bottom: dashed  black 4px; margin-top: 8px;\"></div>\n    <div class=\"road road-p2\"></div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 13;\"></div>\n        {% for i in range(4) %}\n        <div class=\"parking-item parking-item-occuped\"></div>\n        {%endfor%}\n    </div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 9;\"></div>\n        {% for i in range(4) %}\n        <div class=\"parking-item parking-item-reserved\"></div>\n        {%endfor%}\n    </div>\n</div>\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/templates/parking-2.html b/app/templates/parking-2.html
+--- a/app/templates/parking-2.html	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/templates/parking-2.html	(date 1739390196359)
+@@ -1,4 +1,4 @@
+-{% extends "template.html" %}
++{% extends "base.html" %}
+ 
+ {% block title %}
+ Parking
+Index: app/auth/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from .. import app\nfrom .. import db\nfrom ..decorators import logged\nfrom ..models.User import User\nfrom flask import render_template, redirect, url_for, session\nfrom app.forms.LoginForm import LoginForm\nimport bcrypt\n\n@app.route('/login', methods=['GET', 'POST'])\ndef login():\n    form = LoginForm()\n    user = None\n    message = None\n    message_type = None\n    if form.validate_on_submit():\n        form_email = form.email.data\n        password = form.password.data\n        user = db.session.query(User).filter_by(email = form_email).first()\n        if user:\n            if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):\n                session['user'] = user\n                message = \"Successfuly loged in!\"\n                message_type = \"success\"\n            else:\n                message = \"Password wrong!\"\n                message_type = \"danger\"\n        else:\n            message = \"User doesn't exist!\"\n            message_type = \"danger\"\n\n\n    return render_template(\n        'login.html',\n        form=form,\n        username=user.fullname if user else None,\n        message=message,\n        message_type=message_type\n    )\n\n@app.route('/logout')\n@logged\ndef logout():\n    session.clear()\n    return redirect(url_for('login'))\n\n@app.route('/parking1', methods=['GET', 'POST'])\ndef parking1():\n    return render_template(\"parking-1.html\")\n\n@app.route('/parking2', methods=['GET', 'POST'])\ndef parking2():\n    return render_template(\"parking-2.html\")\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/auth/routes.py b/app/auth/routes.py
+--- a/app/auth/routes.py	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/auth/routes.py	(date 1739390344274)
+@@ -41,12 +41,4 @@
+ @logged
+ def logout():
+     session.clear()
+-    return redirect(url_for('login'))
+-
+-@app.route('/parking1', methods=['GET', 'POST'])
+-def parking1():
+-    return render_template("parking-1.html")
+-
+-@app.route('/parking2', methods=['GET', 'POST'])
+-def parking2():
+-    return render_template("parking-2.html")
++    return redirect(url_for('login'))
+\ No newline at end of file
+Index: app/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask\nfrom flask_sqlalchemy import SQLAlchemy\nfrom flask_bootstrap import Bootstrap\nfrom .models import *\nfrom os import environ\nimport secrets\nfrom dotenv import load_dotenv\n\nload_dotenv()\n\napp = Flask(__name__)\nconnection_string = f\"{environ.get('DB_CONNECTION')}://{environ.get('DB_USER')}:{environ.get('DB_PASSWORD')}@{environ.get('DB_HOST')}:{environ.get('DB_PORT')}/{environ.get('DB_NAME')}\"\napp.config.update(\n    SECRET_KEY=secrets.token_hex(16),\n    SESSION_PERMANENT=False,\n    SESSION_TYPE=\"sqlalchemy\",\n    SQLALCHEMY_DATABASE_URI=connection_string\n)\n\ndb = SQLAlchemy(app)\nwith app.app_context():\n    db.create_all()\nBootstrap(app)\n\nfrom . import console\nfrom .auth import routes
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/__init__.py b/app/__init__.py
+--- a/app/__init__.py	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/__init__.py	(date 1739390733366)
+@@ -23,4 +23,5 @@
+ Bootstrap(app)
+ 
+ from . import console
+-from .auth import routes
+\ No newline at end of file
++from .auth import routes
++from .reservation import routes
+Index: app/templates/parking-1.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"template.html\" %}\n\n{% block title %}\nParking\n{% endblock %}\n\n{% block content %}\n\n<div id=\"parking-1\" class=\"parking-bg\">\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 3;\"></div>\n\n        {% for i in range(12) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n\n    <div class=\"road\"></div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 3;\"></div>\n        {% for i in range(6) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n</div>\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/templates/parking-1.html b/app/templates/parking-1.html
+--- a/app/templates/parking-1.html	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/templates/parking-1.html	(date 1739390196350)
+@@ -1,4 +1,4 @@
+-{% extends "template.html" %}
++{% extends "base.html" %}
+ 
+ {% block title %}
+ Parking
+Index: app/models/Book.py
+===================================================================
+diff --git a/app/models/Book.py b/app/models/Book.py
+deleted file mode 100644
+--- a/app/models/Book.py	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ /dev/null	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
+@@ -1,29 +0,0 @@
+-from sqlalchemy import Integer, String, DateTime, ForeignKey, text
+-from sqlalchemy.orm import declared_attr
+-from dataclasses import dataclass
+-from .. import app, db
+-from .Role import Role
+-from .User import User
+-
+-@dataclass
+-class Reservation(db.Model):
+-    __tablename__ = 'reservations'
+-
+-    id = db.Column(Integer, primary_key=True)
+-    created_at = db.Column(DateTime)
+-    user_id = db.Column(Integer, ForeignKey(User.id), nullable=False)
+-    password = db.Column(String(255), nullable=False)
+-    fullname = db.Column(String(255), nullable=False)
+-    contact = db.Column(Integer, nullable=False)
+-    role_id = db.Column(Integer, ForeignKey(Role.id), nullable=False)
+-
+-    @declared_attr
+-    def role(self):
+-        role_name = None
+-        query = text("SELECT * FROM roles WHERE id = :role_id")
+-        with app.app_context():
+-            role_name = db.session.execute(query, params=dict(role_id = self.role_id)).fetchall()
+-        return role_name
+-    
+-    def getAttributes(self):
+-        return self.__dict__
+\ No newline at end of file
+Index: app/models/Reservation.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/models/Reservation.py b/app/models/Reservation.py
+new file mode 100644
+--- /dev/null	(date 1739390174575)
++++ b/app/models/Reservation.py	(date 1739390174575)
+@@ -0,0 +1,18 @@
++from dotenv.parser import Position
++from sqlalchemy import Integer, String, DateTime, ForeignKey, text
++from sqlalchemy.orm import declared_attr
++from dataclasses import dataclass
++from .. import app, db
++from .Role import Role
++from .User import User
++from .Position import Position
++
++@dataclass
++class Reservation(db.Model):
++    __tablename__ = 'reservations'
++
++    id = db.Column(Integer, primary_key=True)
++    created_at = db.Column(DateTime)
++    user_id = db.Column(Integer, ForeignKey(User.id), nullable=False)
++    position_id = db.Column(Integer, ForeignKey(Position.id), nullable=False)
++
+Index: app/models/Position.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/models/Position.py b/app/models/Position.py
+new file mode 100644
+--- /dev/null	(date 1739390176787)
++++ b/app/models/Position.py	(date 1739390176787)
+@@ -0,0 +1,18 @@
++from dotenv.parser import Position
++from sqlalchemy import Integer, String, DateTime, ForeignKey, text
++from sqlalchemy.orm import declared_attr
++from dataclasses import dataclass
++from .. import app, db
++from .Role import Role
++from .User import User
++
++
++@dataclass
++class Position(db.Model):
++    __tablename__ = 'reservations'
++
++    id = db.Column(Integer, primary_key=True)
++    created_at = db.Column(DateTime)
++    code = db.Column(String)
++    floor = db.Column(Integer)
++    
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"Some changes\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app.iml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/__init__.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/__init__.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/parking.py\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\">\n    <execution />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Python Script\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\">\n    <envs>\n      <env key=\"FLASK_APP\" value=\"app\" />\n    </envs>\n    <option name=\"myCustomStartScript\" value=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\" />\n    <option name=\"myEnvs\">\n      <map>\n        <entry key=\"FLASK_APP\" value=\"app\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"Marcos\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;oliverdev75&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/oliverdev75/esp32-parking&quot;,\n    &quot;accountId&quot;: &quot;cfb613c6-6b11-4553-8914-5cdf009ee086&quot;\n  },\n  &quot;recentNewPullRequestHead&quot;: {\n    &quot;server&quot;: {\n      &quot;useHttp&quot;: false,\n      &quot;host&quot;: &quot;github.com&quot;,\n      &quot;port&quot;: null,\n      &quot;suffix&quot;: null\n    },\n    &quot;owner&quot;: &quot;oliverdev75&quot;,\n    &quot;repository&quot;: &quot;esp32-parking&quot;\n  }\n}</component>\n  <component name=\"PhpDebugGeneral\" listening_started=\"true\" />\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"/bin/php\" />\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2rctG6GGXO1oRCzesJhrbq659Yb\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;Shell Script.ESP32 Parking.executor&quot;: &quot;Run&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Python&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  },\n  &quot;keyToStringList&quot;: {\n    &quot;DatabaseDriversLRU&quot;: [\n      &quot;mysql&quot;\n    ]\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/app/forms\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"ESP32 Parking\" type=\"ShConfigurationType\">\n      <option name=\"SCRIPT_TEXT\" value=\"flask run\" />\n      <option name=\"INDEPENDENT_SCRIPT_PATH\" value=\"true\" />\n      <option name=\"SCRIPT_PATH\" value=\"\" />\n      <option name=\"SCRIPT_OPTIONS\" value=\"\" />\n      <option name=\"INDEPENDENT_SCRIPT_WORKING_DIRECTORY\" value=\"true\" />\n      <option name=\"SCRIPT_WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"INDEPENDENT_INTERPRETER_PATH\" value=\"true\" />\n      <option name=\"INTERPRETER_PATH\" value=\"/bin/bash\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"EXECUTE_IN_TERMINAL\" value=\"true\" />\n      <option name=\"EXECUTE_SCRIPT_FILE\" value=\"false\" />\n      <envs />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-PY-243.23654.177\" />\n        <option value=\"bundled-python-sdk-91d3a02ef49d-43b77aa2d136-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.23654.177\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"\" />\n      <created>1737485001431</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1737485001431</updated>\n      <workItem from=\"1737485005034\" duration=\"3751000\" />\n      <workItem from=\"1737554087405\" duration=\"52000\" />\n      <workItem from=\"1737988675728\" duration=\"1180000\" />\n      <workItem from=\"1737989871215\" duration=\"286000\" />\n      <workItem from=\"1737990334642\" duration=\"4035000\" />\n      <workItem from=\"1737994416262\" duration=\"23000\" />\n      <workItem from=\"1738090551056\" duration=\"1327000\" />\n      <workItem from=\"1738091894166\" duration=\"2816000\" />\n      <workItem from=\"1738179495223\" duration=\"1453000\" />\n      <workItem from=\"1738247864888\" duration=\"13000\" />\n      <workItem from=\"1738259449930\" duration=\"428000\" />\n      <workItem from=\"1739203158818\" duration=\"385000\" />\n      <workItem from=\"1739203552731\" duration=\"785000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Some changes\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737994281046</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737994281046</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Some changes\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738092084240</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738092084240</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"3\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Some changes\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Some changes\" />\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/.idea/workspace.xml	(date 1739462664950)
+@@ -4,12 +4,16 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Some changes">
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Console commands changed to Flask">
++      <change afterPath="$PROJECT_DIR$/app/models/Position.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/app/models/Reservation.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/app/reservation/routes.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app.iml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/parking.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/routes.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/models/Book.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/templates/parking-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/parking-1.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/templates/parking-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/parking-2.html" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -40,7 +44,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="Marcos" />
++        <entry key="$PROJECT_DIR$" value="Ethan" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -87,7 +91,7 @@
+     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+     &quot;Shell Script.ESP32 Parking.executor&quot;: &quot;Run&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;booking&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+     &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+@@ -98,7 +102,7 @@
+     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Python&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+   &quot;keyToStringList&quot;: {
+@@ -160,7 +164,12 @@
+       <workItem from="1738247864888" duration="13000" />
+       <workItem from="1738259449930" duration="428000" />
+       <workItem from="1739203158818" duration="385000" />
+-      <workItem from="1739203552731" duration="785000" />
++      <workItem from="1739203552731" duration="1192000" />
++      <workItem from="1739302074173" duration="1700000" />
++      <workItem from="1739348095786" duration="480000" />
++      <workItem from="1739383456529" duration="116000" />
++      <workItem from="1739388674037" duration="2296000" />
++      <workItem from="1739462110371" duration="556000" />
+     </task>
+     <task id="LOCAL-00001" summary="Some changes">
+       <option name="closed" value="true" />
+@@ -178,7 +187,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738092084240</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Console commands changed to Flask">
++      <option name="closed" value="true" />
++      <created>1739204737728</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1739204737728</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -197,7 +214,8 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Some changes" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Some changes" />
++    <MESSAGE value="Console commands changed to Flask" />
++    <option name="LAST_COMMIT_MESSAGE" value="Console commands changed to Flask" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
+Index: app/reservation/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/reservation/routes.py b/app/reservation/routes.py
+new file mode 100644
+--- /dev/null	(date 1739390899923)
++++ b/app/reservation/routes.py	(date 1739390899923)
+@@ -0,0 +1,16 @@
++from .. import app
++from .. import db
++from ..decorators import logged
++from ..models.User import User
++from flask import render_template, redirect, url_for, session
++from app.forms.LoginForm import LoginForm
++import bcrypt
++
++
++@app.route('/parking1', methods=['GET', 'POST'])
++def parking1():
++    return render_template("parking-1.html")
++
++@app.route('/parking2', methods=['GET', 'POST'])
++def parking2():
++    return render_template("parking-2.html")

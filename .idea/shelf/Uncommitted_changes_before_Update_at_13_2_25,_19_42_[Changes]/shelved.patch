@@ -1,0 +1,233 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/.env\n/.venv/*\n/__pycache__/*\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
++++ b/.gitignore	(date 1739472170884)
+@@ -1,3 +1,3 @@
+ /.env
+ /.venv/*
+-/__pycache__/*
++**/__pycache__/*
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
++++ /dev/null	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
+@@ -1,113 +0,0 @@
+-Index: .gitignore
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>./.env\n./.venv\n./__pycache__\n./**/__pycache__
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.gitignore b/.gitignore
+---- a/.gitignore	(revision d4796d9c283f72ecd734fa334a6d8bfa8f0a8470)
+-+++ b/.gitignore	(date 1737486112197)
+-@@ -1,4 +1,3 @@
+--./.env
+--./.venv
+--./__pycache__
+--./**/__pycache__
+-\ No newline at end of file
+-+/.env
+-+/.venv/*
+-+/__pycache__/*
+-\ No newline at end of file
+-Index: parking.py
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>#!/bin/env python3\n\nfrom app import app, db\nfrom app.models.User import User\nfrom app.models.Role import Role\nfrom migrations.migrations import migrate\nimport sys, os, csv, bcrypt, datetime\nfrom getpass import getpass\n\n'''\n    This is NOT the entrypoint of the app please to\n    run it execute in the terminal: flask run\n'''\n\nUSERS_DATA_FILE = 'seeders/users.csv'\n\ndef dbInsert(data: list):\n    with app.app_context():\n        db.session.add_all(data)\n        db.session.commit()\n\n\n\ndef createUser(data: dict):\n    return User(\n        email=data['email'],\n        password = bcrypt.hashpw(\n            data['password'].encode('utf-8'),\n            bcrypt.gensalt()\n        ),\n        fullname=data['fullname'],\n        contact=int(data['contact']),\n        role_id=int(data['role_id']),\n        created_at=datetime.datetime.now()\n    )\n\n\ndef seedFiles():\n    users = []\n    for seeder in os.listdir(\"seeders\"):\n        with open(seeder,'r') as data:\n            for model in csv.reader(data):\n                users.append(\n                    createUser({\n                        \"email\": model[0],\n                        \"password\": model[1],\n                        \"fullname\": model[2],\n                        \"contact\": model[3],\n                        \"role_id\": model[4],\n                    })\n                )\n    dbInsert(users)\n\n\ndef seedUsersFile():\n    users = []\n    try:\n        with open(USERS_DATA_FILE,'r') as data:\n            for model in csv.reader(data):\n                users.append(\n                    createUser({\n                        \"email\": model[0],\n                        \"password\": model[1],\n                        \"fullname\": model[2],\n                        \"contact\": model[3],\n                        \"role_id\": model[4],\n                    })\n                )\n    except Exception as error:\n        print(error)\n    dbInsert(users)\n\n\ndef seedUser():\n    data = {}\n    data[\"email\"] = input(\"Email: \")\n    data[\"password\"] = getpass()\n    data[\"fullname\"] = input(\"Fullname: \")\n    data[\"contact\"] = input(\"Contact: \")\n    data[\"role\"] = input(\"Role: \")\n    with app.app_context():\n        data[\"role_id\"] = db.session.query(Role).filter(Role.role == data['role']).first().id\n    dbInsert([createUser(data)])\n\n\ndef updateUser():\n    id = int(\"Id: \")\n    \n\ndef updateUserPassword():\n    filterChoice = int(input(\"Email (1) or id (2): \"))\n    filteremail = None\n    if filterChoice == 1:\n        filter = input(\"Email: \")\n    else:\n        filter = int(input(\"id: \"))\n    \n    password = getpass()\n    query = None\n    with app.app_context():\n        if filterChoice == 1:\n            query = db.session.query(User).filter(User.email == filter)\n        else:\n            query = db.session.query(User).filter(User.id == filter)\n\n        query.update({\n            User.password: bcrypt.hashpw(\n                password.encode('utf-8'),\n                bcrypt.gensalt()\n            )\n        })\n        db.session.commit()\n\n\n\ntry:\n    match sys.argv[1]:\n        case \"migrate\":\n            migrate()\n        case \"seed:files\":\n            seedFiles()\n        case \"seed:users\":\n            seedUsersFile()\n        case \"seed:user\":\n            seedUser()\n        case \"update:password\":\n            updateUserPassword()\n        case _:\n            print(f\"Unknown command \\\"{sys.argv[1]}\\\"\")\nexcept Exception:\n    print(\"You must provide an action: migrate, seed...\")
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/parking.py b/parking.py
+---- a/parking.py	(revision d4796d9c283f72ecd734fa334a6d8bfa8f0a8470)
+-+++ b/parking.py	(date 1737487510388)
+-@@ -14,14 +14,14 @@
+- 
+- USERS_DATA_FILE = 'seeders/users.csv'
+- 
+--def dbInsert(data: list):
+-+def db_insert(data: list):
+-     with app.app_context():
+-         db.session.add_all(data)
+-         db.session.commit()
+- 
+- 
+- 
+--def createUser(data: dict):
+-+def create_user(data: dict):
+-     return User(
+-         email=data['email'],
+-         password = bcrypt.hashpw(
+-@@ -35,13 +35,13 @@
+-     )
+- 
+- 
+--def seedFiles():
+-+def seed_files():
+-     users = []
+-     for seeder in os.listdir("seeders"):
+-         with open(seeder,'r') as data:
+-             for model in csv.reader(data):
+-                 users.append(
+--                    createUser({
+-+                    create_user({
+-                         "email": model[0],
+-                         "password": model[1],
+-                         "fullname": model[2],
+-@@ -49,16 +49,16 @@
+-                         "role_id": model[4],
+-                     })
+-                 )
+--    dbInsert(users)
+-+    db_insert(users)
+- 
+- 
+--def seedUsersFile():
+-+def seed_users_file():
+-     users = []
+-     try:
+-         with open(USERS_DATA_FILE,'r') as data:
+-             for model in csv.reader(data):
+-                 users.append(
+--                    createUser({
+-+                    create_user({
+-                         "email": model[0],
+-                         "password": model[1],
+-                         "fullname": model[2],
+-@@ -68,7 +68,7 @@
+-                 )
+-     except Exception as error:
+-         print(error)
+--    dbInsert(users)
+-+    db_insert(users)
+- 
+- 
+- def seedUser():
+-@@ -80,7 +80,7 @@
+-     data["role"] = input("Role: ")
+-     with app.app_context():
+-         data["role_id"] = db.session.query(Role).filter(Role.role == data['role']).first().id
+--    dbInsert([createUser(data)])
+-+    db_insert([create_user(data)])
+- 
+- 
+- def updateUser():
+-@@ -118,9 +118,9 @@
+-         case "migrate":
+-             migrate()
+-         case "seed:files":
+--            seedFiles()
+-+            seed_files()
+-         case "seed:users":
+--            seedUsersFile()
+-+            seed_users_file()
+-         case "seed:user":
+-             seedUser()
+-         case "update:password":
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
++++ /dev/null	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]" date="1737989724572" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 27/1/25, 15:55 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"Some changes\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/php.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/auth/routes.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/auth/routes.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\">\n    <execution />\n  </component>\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\">\n    <envs>\n      <env key=\"FLASK_APP\" value=\"app\" />\n    </envs>\n    <option name=\"myCustomStartScript\" value=\"import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass\" />\n    <option name=\"myEnvs\">\n      <map>\n        <entry key=\"FLASK_APP\" value=\"app\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;oliverdev75&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/oliverdev75/esp32-parking&quot;,\n    &quot;accountId&quot;: &quot;9676dca1-4304-46f6-a2c5-68a1533b9495&quot;\n  },\n  &quot;recentNewPullRequestHead&quot;: {\n    &quot;server&quot;: {\n      &quot;useHttp&quot;: false,\n      &quot;host&quot;: &quot;github.com&quot;,\n      &quot;port&quot;: null,\n      &quot;suffix&quot;: null\n    },\n    &quot;owner&quot;: &quot;oliverdev75&quot;,\n    &quot;repository&quot;: &quot;esp32-parking&quot;\n  }\n}</component>\n  <component name=\"PhpDebugGeneral\" listening_started=\"true\" />\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"/bin/php\" />\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2rctG6GGXO1oRCzesJhrbq659Yb\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;#3 on login&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.General&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  },\n  &quot;keyToStringList&quot;: {\n    &quot;DatabaseDriversLRU&quot;: [\n      &quot;mysql&quot;\n    ]\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"Python.FlaskServer\">\n      <module name=\"app\" />\n      <option name=\"ENV_FILES\" value=\"\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"launchJavascriptDebuger\" value=\"false\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"app\" type=\"Python.FlaskServer\">\n      <module name=\"app\" />\n      <option name=\"target\" value=\"$PROJECT_DIR$/app/__init__.py\" />\n      <option name=\"targetType\" value=\"PATH\" />\n      <option name=\"ENV_FILES\" value=\"\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"launchJavascriptDebuger\" value=\"false\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117\" />\n        <option value=\"bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"504bab60-ad44-4cc1-acb0-bba423b7bf7f\" name=\"Changes\" comment=\"\" />\n      <created>1737485001431</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1737485001431</updated>\n      <workItem from=\"1737485005034\" duration=\"3751000\" />\n      <workItem from=\"1737554087405\" duration=\"52000\" />\n      <workItem from=\"1737988675728\" duration=\"1180000\" />\n      <workItem from=\"1737989871215\" duration=\"286000\" />\n      <workItem from=\"1737990334642\" duration=\"4035000\" />\n      <workItem from=\"1737994416262\" duration=\"23000\" />\n      <workItem from=\"1738090551056\" duration=\"1327000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Some changes\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737994281046</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737994281046</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"2\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Some changes\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Some changes\" />\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
++++ b/.idea/workspace.xml	(date 1739472170912)
+@@ -4,15 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Some changes">
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25,_15_55_[Changes]/shelved.patch" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_1_25__15_55__Changes_.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/routes.py" afterDir="false" />
+-    </list>
++    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Temporary commit tasks in progress" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -80,7 +72,7 @@
+     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;#3 on login&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;Marcos&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+     &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+@@ -105,19 +97,28 @@
+       <recent name="$PROJECT_DIR$" />
+     </key>
+   </component>
+-  <component name="RunManager">
+-    <configuration default="true" type="Python.FlaskServer">
++  <component name="RunManager" selected="Python.app">
++    <configuration name="app" type="PythonConfigurationType" factoryName="Python">
+       <module name="app" />
+       <option name="ENV_FILES" value="" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
+       <option name="SDK_HOME" value="" />
+       <option name="WORKING_DIRECTORY" value="" />
+       <option name="IS_MODULE_SDK" value="false" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="launchJavascriptDebuger" value="false" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/__init__.py" />
++      <option name="PARAMETERS" value="" />
++      <option name="SHOW_COMMAND_LINE" value="false" />
++      <option name="EMULATE_TERMINAL" value="false" />
++      <option name="MODULE_MODE" value="false" />
++      <option name="REDIRECT_INPUT" value="false" />
++      <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+     <configuration name="app" type="Python.FlaskServer">
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"Black\">\n    <option name=\"sdkName\" value=\"Python 3.10 (app)\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_23\" project-jdk-name=\"Python 3.10 (app)\" project-jdk-type=\"Python SDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 61c040237d2f5039621a97c897ad002b2a059c44)
++++ b/.idea/misc.xml	(date 1739472170914)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.10 (app)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" project-jdk-name="Python 3.10 (app)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
