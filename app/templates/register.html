@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Information
+{% endblock %}
+
+{% block content %}
+    <main class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <form class="w-25 px-4 py-5 shadow-lg container register-form" method="post" novalidate>
+
+            <h1 class="mb-5 text-center">Sign up</h1>
+
+            {% for flash_message in get_flashed_messages() %}
+                <div class="alert alert-info">{{ flash_message }}</div>
+            {% endfor %}
+            {% if message %}
+                <div class="alert alert-{{ message_type }}">{{ message }}</div>
+            {% endif %}
+            {% if user_ip %}
+                <div class="alert alert-info">Your IP is: {{ user_ip }}</div>
+            {% endif %}
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3 flex gx-3">
+                {{ form.email(class_="form-control form-control-lg", placeholder="Email") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.name(class_="form-control form-control-lg", placeholder="Name") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.password(class_="form-control form-control-lg", placeholder="Password") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.repeat_password(class_="form-control form-control-lg", placeholder="Repeat password") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.contact(class_="form-control form-control-lg", placeholder="Phone number") }}
+            </div>
+            <div class="mb-3 flex gx-3">
+                {{ form.car_plate(class_="form-control form-control-lg", placeholder="Car plate") }}
+            </div>
+            {{ form.submit(class_="btn btn-primary btn-lg w-100 register-button") }}
+            <div>
+                {{ result }}
+            </div>
+        </form>
+    </main>
+{% endblock %}

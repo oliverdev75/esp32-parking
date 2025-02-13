@@ -1,0 +1,10 @@
+.login-form{
+    background-color: #233B61;
+    border-radius: 4px;
+    color: white;
+}
+
+.login-form input:not(.login-button){
+    margin-bottom: 20px;
+    color: black !important;
+}

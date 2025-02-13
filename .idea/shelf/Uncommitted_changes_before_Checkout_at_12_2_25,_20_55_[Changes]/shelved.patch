@@ -1,0 +1,28 @@
+Index: app/templates/parking-1.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"template.html\" %}\n\n{% block title %}\nParking\n{% endblock %}\n\n{% block content %}\n\n<div id=\"parking-1\" class=\"parking-bg\">\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 3;\"></div>\n\n        {% for i in range(12) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n\n    <div class=\"road\"></div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 3;\"></div>\n        {% for i in range(6) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n</div>\n{% endblock %}
+===================================================================
+diff --git a/app/templates/parking-1.html b/app/templates/parking-1.html
+--- a/app/templates/parking-1.html	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/templates/parking-1.html	(date 1739390091338)
+@@ -1,4 +1,4 @@
+-{% extends "template.html" %}
++{% extends "base.html" %}
+ 
+ {% block title %}
+ Parking
+Index: app/templates/parking-2.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"template.html\" %}\n\n{% block title %}\nParking\n{% endblock %}\n\n{% block content %}\n\n<div id=\"parking-2\" class=\"parking-bg\">\n\n    <div class=\"parking-container\" style=\"transform-origin: center right; rotate: -5deg;\">\n        {% for i in range(16) %}\n        <div class=\"parking-item parking-item-avaliable\"></div>\n        {%endfor%}\n    </div>\n\n    <div style=\"transform-origin: center right; rotate: -5deg; border-bottom: dashed  black 4px; margin-top: 8px;\"></div>\n    <div class=\"road road-p2\"></div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 13;\"></div>\n        {% for i in range(4) %}\n        <div class=\"parking-item parking-item-occuped\"></div>\n        {%endfor%}\n    </div>\n\n    <div class=\"parking-container\">\n        <div style=\"grid-column-start: 1; grid-column-end: 9;\"></div>\n        {% for i in range(4) %}\n        <div class=\"parking-item parking-item-reserved\"></div>\n        {%endfor%}\n    </div>\n</div>\n{% endblock %}
+===================================================================
+diff --git a/app/templates/parking-2.html b/app/templates/parking-2.html
+--- a/app/templates/parking-2.html	(revision a76e08faaf69f0ea78cb83f6e6730f6d08f9408b)
++++ b/app/templates/parking-2.html	(date 1739390091348)
+@@ -1,4 +1,4 @@
+-{% extends "template.html" %}
++{% extends "base.html" %}
+ 
+ {% block title %}
+ Parking

@@ -1,0 +1,10 @@
+.register-form{
+    background-color: #233B61;
+    border-radius: 4px;
+    color: white;
+}
+
+.register-form input:not(.register-button){
+    margin-bottom: 20px;
+    color: black !important;
+}

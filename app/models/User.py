@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, String, DateTime, ForeignKey, text
 from sqlalchemy.orm import declared_attr
 from dataclasses import dataclass
-from app import app, db
+from .. import app, db
 from .Role import Role
 
 @dataclass
@@ -15,6 +15,7 @@ class User(db.Model):
     fullname = db.Column(String(255), nullable=False)
     contact = db.Column(Integer, nullable=False)
     role = db.relationship('Role', backref='user', lazy='dynamic')
+    car_plate = db.Column(String(10), unique=True, nullable=False)
 
     # @declared_attr
     # def role(self):
