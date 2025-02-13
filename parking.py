@@ -19,7 +19,10 @@ def db_insert(data: list):
         db.session.add_all(data)
         db.session.commit()
 
-
+def dbInsertUser(data: list):
+    with app.app_context():
+        db.session.add(data)
+        db.session.commit()
 
 def create_user(data: dict):
     return User(
@@ -46,7 +49,8 @@ def seed_files():
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
     db_insert(users)
@@ -63,7 +67,8 @@ def seed_users_file():
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
     except Exception as error:
@@ -71,14 +76,14 @@ def seed_users_file():
     db_insert(users)
 
 
-def seed_user():
-    data = {
-        "email": input("Email: "),
-        "password": getpass(),
-        "fullname": input("Fullname: "),
-        "contact": input("Contact: "),
-        "role": input("Role: ")
-    }
+def seedUser():
+    data = {}
+    data["email"] = input("Email: ")
+    data["password"] = getpass()
+    data["fullname"] = input("Fullname: ")
+    data["contact"] = input("Contact: ")
+    data["car_plate"] = input("Car plate: ")
+    data["role"] = input("Role: ")
     with app.app_context():
         data["role_id"] = db.session.query(Role).filter(Role.role == data['role']).first().id
     db_insert([create_user(data)])
@@ -110,12 +115,17 @@ def update_user_password():
         })
         db.session.commit()
 
-
+def freshDB():
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
 
 try:
     match sys.argv[1]:
         case "migrate":
             migrate()
+        case "migrate:fresh":
+            freshDB()
         case "seed:files":
             seed_files()
         case "seed:users":

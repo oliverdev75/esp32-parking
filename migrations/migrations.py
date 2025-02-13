@@ -15,6 +15,7 @@ def migrate():
             fullname VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
             contact INT NOT NULL,
+            car_plate VARCHAR(10) NOT NULL UNIQUE,
             role_id INT NOT NULL,
             created_at DATETIME,
             CONSTRAINT fk_user_roles FOREIGN KEY (role_id) REFERENCES roles (id)
