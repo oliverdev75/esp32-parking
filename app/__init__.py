@@ -1,7 +1,7 @@
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-from .models import *
 from os import environ
 import secrets
 from dotenv import load_dotenv
@@ -18,9 +18,13 @@ app.config.update(
 )
 
 db = SQLAlchemy(app)
-with app.app_context():
-    db.create_all()
+
+from .models import *
+
+migrate = Migrate(app, db)
+
 Bootstrap(app)
 
 from . import console
+from .reservation import routes
 from .auth import routes
