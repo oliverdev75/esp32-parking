@@ -111,3 +111,11 @@ def register():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/parking1', methods=['GET', 'POST'])
+def parking1():
+    return render_template("parking-1.html")
+
+@app.route('/parking2', methods=['GET', 'POST'])
+def parking2():
+    return render_template("parking-2.html")
