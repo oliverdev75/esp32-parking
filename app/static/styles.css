@@ -9,4 +9,5 @@ html, body {
 body {
     background-image: url("images/BackgroundMountains.png");
     background-size: cover;
+    overflow: hidden;
 }
