@@ -1,3 +1,6 @@
+from crypt import methods
+from datetime import timezone
+
 from .. import app
 from .. import db
 from ..models.User import User
@@ -62,3 +65,52 @@ def login():
                 form=form,
                 user_ip=user_ip,
             )
+
+@app.route('/entrada', methods=['POST'])
+def entrada():
+    data = request.get_json(force=True)
+
+    matricula = data.get('matricula')
+
+    registro = User.filter_by(matricula=matricula).first()
+
+    if  not registro:
+        return  jsonify({"error": "Matricula no registrada"}), 403
+    else:
+        return  'Matricula existente'
+
+    spot = ParkingSpot.query.filter_by(free=False).first()
+
+    if spot:
+        new_log = ParkingLog(
+            car_plate = matricula,
+            entry_time = datetime.now(utc)
+        )
+        db.session.add(new_log)
+        db.session.commit()
+        return  jsonify({
+            "message": "Welcome to Bernat",
+            "plate": matricula,
+            "entry_time":  entry_time
+        }), 200
+    else
+        return  jsonify({"error": "No hay sitios disponibles"}), 409
+
+@app.route('/updateSpot', methods=['POST'])
+def updateSpot()
+    data = request.get_json(force=True)
+    spotID = data.get('spotID')
+    state = data.get('state')
+
+    spot = parkingSpot.query.filter_by(id=spotID).first()
+
+    spot.is_ocupet = state
+
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "spot updated",
+        "spot": spotID,
+        "state": state
+    }), 200
