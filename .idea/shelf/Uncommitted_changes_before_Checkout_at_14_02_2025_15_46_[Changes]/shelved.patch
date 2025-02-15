@@ -1,0 +1,73 @@
+Index: app/auth/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from .. import app\r\nfrom .. import db\r\nfrom ..models.User import User\r\nfrom flask import render_template, redirect, request, session, make_response, flash\r\nfrom .LoginForm import LoginForm\r\nimport bcrypt\r\n\r\n@app.route('/', methods=['GET', 'POST'])\r\ndef login():\r\n    form = LoginForm()\r\n    user = None\r\n    user_ip = ''\r\n    if 'user_ip' in request.cookies:\r\n        user_ip = request.cookies.get('user_ip')\r\n        if 'user' in session:\r\n            user = session.get('user')\r\n    else:\r\n        session.clear()\r\n        res = make_response(redirect('/'))\r\n        res.set_cookie('user_ip', request.remote_addr)\r\n        flash(\"Session closed, log in please.\")\r\n        return res\r\n\r\n    message = None\r\n    message_type = None\r\n    if form.validate_on_submit():\r\n        form_email = form.email.data\r\n        password = form.password.data\r\n        user = db.session.query(User).filter_by(email = form_email).first()\r\n        if user:\r\n            if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):\r\n                session['user'] = user\r\n                message = \"Successfuly loged in!\"\r\n                message_type = \"success\"\r\n            else:\r\n                message = \"Password wrong!\"\r\n                message_type = \"danger\"\r\n        else:\r\n            message = \"User doesn't exist!\"\r\n            message_type = \"danger\"\r\n    \r\n    if message:\r\n        if user:\r\n            return render_template(\r\n                'login.html',\r\n                form=form,\r\n                user_ip=user_ip,\r\n                username=user.fullname,\r\n                message=message,\r\n                message_type=message_type\r\n            )\r\n        else:\r\n            return render_template(\r\n                'login.html',\r\n                form=form,\r\n                user_ip=user_ip,\r\n                message=message,\r\n                message_type=message_type\r\n            )\r\n    return render_template(\r\n                'login.html',\r\n                form=form,\r\n                user_ip=user_ip,\r\n            )
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/auth/routes.py b/app/auth/routes.py
+--- a/app/auth/routes.py	(revision b0184fa903aec42b5add2deab73216fe94c07445)
++++ b/app/auth/routes.py	(date 1739474119176)
+@@ -1,3 +1,6 @@
++from crypt import methods
++from datetime import timezone
++
+ from .. import app
+ from .. import db
+ from ..models.User import User
+@@ -61,4 +64,53 @@
+                 'login.html',
+                 form=form,
+                 user_ip=user_ip,
+-            )
+\ No newline at end of file
++            )
++
++@app.route('/entrada', methods=['POST'])
++def entrada():
++    data = request.get_json(force=True)
++
++    matricula = data.get('matricula')
++
++    registro = User.filter_by(matricula=matricula).first()
++
++    if  not registro:
++        return  jsonify({"error": "Matricula no registrada"}), 403
++    else:
++        return  'Matricula existente'
++
++    spot = ParkingSpot.query.filter_by(free=False).first()
++
++    if spot:
++        new_log = ParkingLog(
++            car_plate = matricula,
++            entry_time = datetime.now(utc)
++        )
++        db.session.add(new_log)
++        db.session.commit()
++        return  jsonify({
++            "message": "Welcome to Bernat",
++            "plate": matricula,
++            "entry_time":  entry_time
++        }), 200
++    else
++        return  jsonify({"error": "No hay sitios disponibles"}), 409
++
++@app.route('/updateSpot', methods=['POST'])
++def updateSpot()
++    data = request.get_json(force=True)
++    spotID = data.get('spotID')
++    state = data.get('state')
++
++    spot = parkingSpot.query.filter_by(id=spotID).first()
++
++    spot.is_ocupet = state
++
++
++    db.session.commit()
++
++    return jsonify({
++        "message": "spot updated",
++        "spot": spotID,
++        "state": state
++    }), 200

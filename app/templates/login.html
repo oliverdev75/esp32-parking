@@ -6,12 +6,10 @@
 
 {% block content %}
     <main class="w-100 h-100 d-flex justify-content-center align-items-center">
-        <form class="w-25 px-4 py-5 shadow-lg container" method="post" novalidate>
-            {% if username %}
-                <h1 class="mb-5 text-center">Welcome back, {{ username }}!</h1>
-            {% else %}
-                <h1 class="mb-5 text-center">Welcome back!</h1>
-            {% endif %}
+        <form class="w-25 px-4 py-5 shadow-lg container login-form" method="post" novalidate>
+
+            <h1 class="mb-5 text-center">Log in</h1>
+
             {% for flash_message in get_flashed_messages() %}
                 <div class="alert alert-info">{{ flash_message }}</div>
             {% endfor %}
@@ -23,12 +21,12 @@
             {% endif %}
             {{ form.hidden_tag() }}
             <div class="mb-3 flex gx-3">
-                {{ form.email(class_="form-control form-control-lg", placeholder="Username") }}
+                {{ form.email(class_="form-control form-control-lg", placeholder="Email") }}
             </div>
             <div class="mb-3 flex gx-3">
                 {{ form.password(class_="form-control form-control-lg", placeholder="Password") }}
             </div>
-            {{ form.submit(class_="btn btn-primary btn-lg w-100") }}
+            {{ form.submit(class_="btn btn-primary btn-lg w-100 login-button") }}
         </form>
     </main>
 {% endblock %}

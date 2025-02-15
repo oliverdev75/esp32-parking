@@ -1,0 +1,32 @@
+{% extends "template.html" %}
+
+{% block title %}
+Parking
+{% endblock %}
+
+{% block content %}
+
+<div class="parking-global-container">
+    <div class="parking-background">
+        <div id="parking-1" class="parking-bg">
+
+            <div class="parking-container">
+                <div style="grid-column-start: 1; grid-column-end: 3;"></div>
+
+                {% for i in range(12) %}
+                <div class="parking-item parking-item-avaliable"></div>
+                {%endfor%}
+            </div>
+
+            <div class="road"></div>
+
+            <div class="parking-container">
+                <div style="grid-column-start: 1; grid-column-end: 3;"></div>
+                {% for i in range(6) %}
+                <div class="parking-item parking-item-avaliable"></div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,10 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid px-5 py-2">
-    <a class="navbar-brand fs-3" href="#">Parking Project</a>  
+<nav class="navbar navbar-expand-lg navbar-light bg-light nav">
+  <div class="container-fluid px-5 py-2 mid-nav">
+    <a class="navbar-brand fs-3" href="/"><img src="{{ url_for('static', filename='images/Logo.svg') }}" alt="Logo"></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link fs-5" href="#">Home</a>
+        <li class="nav-item active nav-buttons">
+          <a class="nav-link fs-5" href="/parking1">Parking</a>
+            {% if page=='login' %}
+                <a class="nav-link fs-5" href="{{ url_for('register') }}">Sign up</a>
+            {% elif page=='register' %}
+                <a class="nav-link fs-5" href="{{ url_for('login') }}">Log in</a>
+            {% else %}
+                <a class="nav-link fs-5" href="{{ url_for('login') }}">Account</a>
+            {% endif %}
         </li>
       </ul>
     </div>

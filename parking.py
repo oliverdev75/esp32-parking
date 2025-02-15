@@ -14,14 +14,17 @@ from getpass import getpass
 
 USERS_DATA_FILE = 'seeders/users.csv'
 
-def dbInsert(data: list):
+def db_insert(data: list):
     with app.app_context():
         db.session.add_all(data)
         db.session.commit()
 
+def dbInsertUser(data: list):
+    with app.app_context():
+        db.session.add(data)
+        db.session.commit()
 
-
-def createUser(data: dict):
+def create_user(data: dict):
     return User(
         email=data['email'],
         password = bcrypt.hashpw(
@@ -35,40 +38,42 @@ def createUser(data: dict):
     )
 
 
-def seedFiles():
+def seed_files():
     users = []
     for seeder in os.listdir("seeders"):
         with open(seeder,'r') as data:
             for model in csv.reader(data):
                 users.append(
-                    createUser({
+                    create_user({
                         "email": model[0],
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
-    dbInsert(users)
+    db_insert(users)
 
 
-def seedUsersFile():
+def seed_users_file():
     users = []
     try:
         with open(USERS_DATA_FILE,'r') as data:
             for model in csv.reader(data):
                 users.append(
-                    createUser({
+                    create_user({
                         "email": model[0],
                         "password": model[1],
                         "fullname": model[2],
                         "contact": model[3],
-                        "role_id": model[4],
+                        "car_plate": model[4],
+                        "role_id": model[5],
                     })
                 )
     except Exception as error:
         print(error)
-    dbInsert(users)
+    db_insert(users)
 
 
 def seedUser():
@@ -77,28 +82,27 @@ def seedUser():
     data["password"] = getpass()
     data["fullname"] = input("Fullname: ")
     data["contact"] = input("Contact: ")
+    data["car_plate"] = input("Car plate: ")
     data["role"] = input("Role: ")
     with app.app_context():
         data["role_id"] = db.session.query(Role).filter(Role.role == data['role']).first().id
-    dbInsert([createUser(data)])
+    db_insert([create_user(data)])
 
 
 def updateUser():
     id = int("Id: ")
     
 
-def updateUserPassword():
-    filterChoice = int(input("Email (1) or id (2): "))
-    filteremail = None
-    if filterChoice == 1:
+def update_user_password():
+    filter_choice = int(input("Email (1) or id (2): "))
+    if filter_choice == 1:
         filter = input("Email: ")
     else:
         filter = int(input("id: "))
-    
+
     password = getpass()
-    query = None
     with app.app_context():
-        if filterChoice == 1:
+        if filter_choice == 1:
             query = db.session.query(User).filter(User.email == filter)
         else:
             query = db.session.query(User).filter(User.id == filter)
@@ -111,20 +115,25 @@ def updateUserPassword():
         })
         db.session.commit()
 
-
+def freshDB():
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
 
 try:
     match sys.argv[1]:
         case "migrate":
             migrate()
+        case "migrate:fresh":
+            freshDB()
         case "seed:files":
-            seedFiles()
+            seed_files()
         case "seed:users":
-            seedUsersFile()
+            seed_users_file()
         case "seed:user":
             seedUser()
         case "update:password":
-            updateUserPassword()
+            update_user_password()
         case _:
             print(f"Unknown command \"{sys.argv[1]}\"")
 except Exception:

@@ -1,4 +1,13 @@
+*:not(.alert){
+    color: white !important;
+}
 
 html, body {
     height: 100vh !important;
+}
+
+body {
+    background-image: url("images/BackgroundMountains.png");
+    background-size: cover;
+    overflow: hidden;
 }
