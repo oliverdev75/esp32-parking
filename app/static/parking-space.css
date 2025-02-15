@@ -1,6 +1,28 @@
 .parking-bg {
-    width: 50%;
+    width: 80%;
     height: 512px;
+    border-radius: 4px;
+}
+
+.parking-global-container{
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.parking-background{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: rgba(94, 91, 77, 0.3);
+    height: 90%;
+    width: 60%;
+}
+
+#parking-1{
+    transform: scale(1, -1);
 }
 
 .parking-container {
@@ -58,7 +80,7 @@
 
 .road {
     height: 128px;
-    background-color: white;
+    background-color: rgba(255, 227, 59, 0.3);
 
     transform-origin: center right;
 
