@@ -1,7 +1,6 @@
 .nav{
     background-color: transparent !important;
     width: 80%;
-    justify-self: center;
     border-bottom: solid 2px white;
 }
 
@@ -14,11 +13,6 @@
 .mid-nav{
     padding: 0 !important;
     display: flex !important;
-}
-
-.nav-buttons{
-    display: flex !important;
-    justify-content: space-between !important;
 }
 
 .nav-buttons a{

@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="restaurant">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.53">
-    <root id="1">
-      <DefaultCasing>exact</DefaultCasing>
-      <DefaultEngine>InnoDB</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>restaurant|schema||restaurant||ALTER|G
-restaurant|schema||restaurant||ALTER ROUTINE|G
-restaurant|schema||restaurant||CREATE|G
-restaurant|schema||restaurant||CREATE ROUTINE|G
-restaurant|schema||restaurant||CREATE TEMPORARY TABLES|G
-restaurant|schema||restaurant||CREATE VIEW|G
-restaurant|schema||restaurant||DELETE|G
-restaurant|schema||restaurant||DROP|G
-restaurant|schema||restaurant||EVENT|G
-restaurant|schema||restaurant||EXECUTE|G
-restaurant|schema||restaurant||INDEX|G
-restaurant|schema||restaurant||INSERT|G
-restaurant|schema||restaurant||LOCK TABLES|G
-restaurant|schema||restaurant||REFERENCES|G
-restaurant|schema||restaurant||SELECT|G
-restaurant|schema||restaurant||SHOW VIEW|G
-restaurant|schema||restaurant||TRIGGER|G
-restaurant|schema||restaurant||UPDATE|G
-restaurant|schema||restaurant||grant option|G</Grants>
-      <ServerVersion>9.0.1</ServerVersion>
-    </root>
+    <root id="1"/>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
     </collation>

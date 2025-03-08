@@ -4,9 +4,18 @@
 
 html, body {
     height: 100vh !important;
+    display: flex;
+    flex-direction: column;
 }
 
 body {
+    font-family: 'Roboto', sans-serif;
     background-image: url("images/BackgroundMountains.png");
     background-size: cover;
+}
+
+
+.btn-primary {
+    padding: 4px 20px !important;
+    border-radius: 4px;
 }

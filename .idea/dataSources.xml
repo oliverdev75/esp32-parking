@@ -21,11 +21,18 @@
       <jdbc-url>jdbc:mysql://localhost:3336/restaurant</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="EINA" uuid="d44e2e4e-6759-4d5d-a06c-93ec0a6e843c">
+    <data-source source="LOCAL" name="BernatERP" uuid="3070b222-caff-4868-834d-223b45153a7d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3333/eina</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3336/bernaterp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="SQLCheck" uuid="122334dd-38a2-4929-8f44-c1bae36ba567">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3336/sqlcheck</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

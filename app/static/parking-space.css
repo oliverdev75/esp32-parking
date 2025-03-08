@@ -1,35 +1,36 @@
 .parking-bg {
-    width: 50%;
-    height: 512px;
+    background: #233B61;
+    padding: 50px 40px;
 }
 
 .parking-container {
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    gap: 4px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
 }
 
 .parking-item {
-    border-radius: 18px;
+    border-radius: 25px;
     background-color: black;
-    height: 12vh;
+    height: 120px;
+    width: 300px;
 }
 
 /*
  * Parking Item Variations 
  */
-.parking-item-avaliable
+.parking-item-available
 {
     background-color: #317144;
     transition-timing-function: ease-out;
     transition: background-color 500ms;
 }
+
 .parking-item-avaliable:hover
 {
     background-color: #7EFFA5;
 }
-
 
 .parking-item-reserved
 {
@@ -42,13 +43,13 @@
     background-color: #FFFF7E;
 }
 
-.parking-item-occuped
+.parking-item-busy
 {
     background-color: #934646;
     transition-timing-function: ease-out;
     transition: background-color 500ms;
 }
-.parking-item-occuped:hover
+.parking-item-busy:hover
 {
     background-color: #FF7E7E;
 }
@@ -59,14 +60,9 @@
 .road {
     height: 128px;
     background-color: white;
-
-    transform-origin: center right;
-
-    margin-top: 8px;
-    margin-bottom: 32px;
+    margin: 10px 0;
 }
 
-.road-p2
-{
-    rotate: -5deg;
+.line-dashed {
+    border-bottom: dashed black 4px;
 }

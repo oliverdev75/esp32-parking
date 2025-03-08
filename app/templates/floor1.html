@@ -10,7 +10,7 @@ Parking
 
     <div class="parking-container" style="transform-origin: center right; rotate: -5deg;">
         {% for i in range(16) %}
-        <div class="parking-item parking-item-avaliable"></div>
+            <div class="parking-item parking-item-avaliable"></div>
         {%endfor%}
     </div>
 
@@ -19,7 +19,7 @@ Parking
 
     <div class="parking-container">
         <div style="grid-column-start: 1; grid-column-end: 13;"></div>
-        {% for i in range(4) %}
+        {% for i in first_positions %}
         <div class="parking-item parking-item-occuped"></div>
         {%endfor%}
     </div>

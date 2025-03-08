@@ -1,29 +1,27 @@
-from sqlalchemy import Integer, String, DateTime, ForeignKey, text
+from sqlalchemy import Integer, String, DateTime
 from sqlalchemy.orm import declared_attr
 from dataclasses import dataclass
 from .. import app, db
-from .Role import Role
 
 @dataclass
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(Integer, primary_key=True)
-    created_at = db.Column(DateTime)
+    id = db.Column(Integer(), primary_key=True)
+    created_at = db.Column(DateTime())
     email = db.Column(String(255), unique=True, nullable=False)
     password = db.Column(String(255), nullable=False)
     fullname = db.Column(String(255), nullable=False)
-    contact = db.Column(Integer, nullable=False)
-    role = db.relationship('Role', backref='user', lazy='dynamic')
-    car_plate = db.Column(String(10), unique=True, nullable=False)
+    contact = db.Column(Integer(), nullable=False)
+    role_id = db.Column(db.ForeignKey("roles.id"))
+    role = db.relationship("Role", back_populates="users")
+    vehicles = db.relationship("Vehicle", back_populates="user")
 
-    # @declared_attr
-    # def role(self):
-    #     role_name = None
-    #     query = text("SELECT * FROM roles WHERE id = :role_id")
-    #     with app.app_context():
-    #         role_name = db.session.execute(query, params=dict(role_id = self.role_id)).fetchall()
-    #     return role_name
-    
+    def to_dict(self, vehicle=True):
+        data = { 'email': self.email, 'role': self.role.role, 'fullname': self.fullname, 'contact': self.contact }
+        if vehicle:
+            data['vehicles'] = [vehicle.to_dict() for vehicle in self.vehicles]
+        return data
+
     def __repr__(self):
-        return f"<User {self.email}, {self.role}, {self.fullname}, {self.contact}>"
+        return f"<User {self.email}, {self.role}, {self.fullname}, {self.contact}, {self.vehicles}>"

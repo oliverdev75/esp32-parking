@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Parking
+{% endblock %}
+
+{% block content %}
+<main class="flex-grow-1 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col parking-bg">
+                <div class="line-dashed" style=""></div>
+                <div class="road"></div>
+                <div class="line-dashed" style=""></div>
+                <div class="parking-container">
+                    {% for position in positions %}
+                        {% if position.reserved %}
+                            <a href="{{ url_for('parkingPage', position=position.code) }}">
+                                <div class="parking-item parking-item-reserved"></div>
+                            </a>
+                        {% elif position.busy %}
+                            <a href="{{ url_for('parkingPage', position=position.code) }}">
+                                <div class="parking-item parking-item-busy"></div>
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('parkingPage', position=position.code) }}">
+                                <div class="parking-item parking-item-available"></div>
+                            </a>
+                        {% endif %}
+                    {%endfor%}
+                </div>
+            </div>
+            {% if specified_position %}
+                <aside class="p-4">
+                    <h2 class="text-center">Details</h2>
+                    <span>Position: <strong>{{ specified_position.code }}</strong></span>
+                    {% if specified_position.reserved %}
+                        <span class="px-3 py-1 reserved-pill">Reserved</span>
+                    {% elif specified_position.busy %}
+                        <span class="px-3 py-1 busy-pill">Busy</span>
+                    {% else %}
+                        <span class="px-3 py-1 free-pill">Free</span>
+                    {% endif %}
+
+                    {% if not specified_position.reserved %}
+                        <div>
+                            <a class="btn btn-primary btn-lg w-100" href="{{ url_for('reservate', position=specified_position.code) }}">Reservate</a>
+                        </div>
+                    {% endif %}
+                </aside>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

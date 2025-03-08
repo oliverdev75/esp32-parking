@@ -4,22 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Console commands changed to Flask">
-      <change afterPath="$PROJECT_DIR$/app/models/Position.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/Reservation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/reservation/routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/notfound.html" afterDir="false" />
+    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Some changes">
+      <change afterPath="$PROJECT_DIR$/app/models/Vehicle.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/auth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/parking.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/parking.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a8669448-fbf0-4302-831f-5b5ea09ba6a1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a8669448-fbf0-4302-831f-5b5ea09ba6a1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d44e2e4e-6759-4d5d-a06c-93ec0a6e843c.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d44e2e4e-6759-4d5d-a06c-93ec0a6e843c/storage_v2/_src_/schema/eina.V4EvAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d44e2e4e-6759-4d5d-a06c-93ec0a6e843c/storage_v2/_src_/schema/eina.V4EvAA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d44e2e4e-6759-4d5d-a06c-93ec0a6e843c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/esp32-parking.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/esp32-parking.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_2_25,_20_55_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_2_25__20_55__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_13_2_25,_17_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_13_2_25__17_12__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_12_2_25,_20_56_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_12_2_25__20_56__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_25,_20_51_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_25__20_51__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Book.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/routes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forms/RegisterForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/RegisterForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Position.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Reservation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Reservation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/Role.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Role.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/User.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/parking-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/parking-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/parking-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/parking-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/migrations.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/reservation/routes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/img/ParkingBackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/nav.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/nav.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/parking-space.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/parking-space.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/navBar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navBar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/parking-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/floor2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/parking-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/floor1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/ee1479315008_initital_migration.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +122,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;HTTP Request.app-endpoints | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -99,7 +131,7 @@
     &quot;Shell Script.ESP32 Parking.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;booking&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/oliver/Documents/Dev/fpprojs/parking/app/app/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -108,7 +140,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -119,13 +151,23 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates" />
+      <recent name="$PROJECT_DIR$/app/models" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/routes" />
+      <recent name="$PROJECT_DIR$/app" />
       <recent name="$PROJECT_DIR$/app/forms" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="HTTP Request.app-endpoints | #1">
+    <configuration name="app-endpoints | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/app-endpoints.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="ESP32 Parking" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="flask run" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -145,8 +187,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-PY-243.23654.177" />
-        <option value="bundled-python-sdk-91d3a02ef49d-43b77aa2d136-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.23654.177" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-PY-243.24978.54" />
+        <option value="bundled-python-sdk-91e3b7efe1d4-466328ff949b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.24978.54" />
       </set>
     </attachedChunks>
   </component>
@@ -176,6 +218,17 @@
       <workItem from="1739383456529" duration="116000" />
       <workItem from="1739388674037" duration="2296000" />
       <workItem from="1739462110371" duration="556000" />
+      <workItem from="1740678668004" duration="4543000" />
+      <workItem from="1740754399689" duration="4760000" />
+      <workItem from="1740939417194" duration="2580000" />
+      <workItem from="1741029813698" duration="2890000" />
+      <workItem from="1741117693349" duration="4054000" />
+      <workItem from="1741188384131" duration="2186000" />
+      <workItem from="1741222979710" duration="763000" />
+      <workItem from="1741337502260" duration="715000" />
+      <workItem from="1741362340700" duration="4642000" />
+      <workItem from="1741378509060" duration="8788000" />
+      <workItem from="1741434754925" duration="10303000" />
     </task>
     <task id="LOCAL-00001" summary="Some changes">
       <option name="closed" value="true" />
