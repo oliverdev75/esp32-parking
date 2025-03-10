@@ -53,9 +53,8 @@ def reservate():
     for vehicle in user.vehicles:
         if not vehicle.has_reservation():
             all_reserved = False
-    has_reservation = db.session.query(Reservation).filter_by(vehicle_id = vehicle.id).first().to_dict()
-    print(has_reservation)
-    if all_reserved or has_reservation:
+    print("Out func: ",vehicle.has_reservation())
+    if all_reserved or vehicle.has_reservation():
         session['error'] = "All your vehicles have reserved positions."
         return redirect(url_for('parking_page'))
     db.session.add(

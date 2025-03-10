@@ -86,9 +86,8 @@ def busy_position():
 
 @app.route('/api/positions')
 def positionsa():
-    positions = db.session.query(Reservation).all()
-
+    position = db.session.query(Reservation).filter_by(vehicle_id=request.args.get('vehicle')).first()
     return jsonify({
         'status': 'ok',
-        'reservations': [position.to_dict() for position in positions],
+        'reservations': position.to_dict(),
     })

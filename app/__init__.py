@@ -23,5 +23,5 @@ migrate = Migrate(app, db)
 Bootstrap(app)
 
 from . import console
-from .routes import parking, auth, api
+from .routes import parking, vehicle,  auth, api
 

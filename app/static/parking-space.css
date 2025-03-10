@@ -1,11 +1,11 @@
 .parking-bg {
     background: #233B61;
     padding: 10px 40px;
+    border: 10px solid #31588c;
 }
 
 .parking-container {
     width: auto;
-    margin: 10px 0;
     display: flex;
     gap: 20px;
 }

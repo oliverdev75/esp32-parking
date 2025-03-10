@@ -9,6 +9,7 @@ class Log(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     vehicle = db.relationship('Vehicle', backref='logs')
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicles.id'))
     entry_date = db.Column(db.DateTime, default=datetime.now())
     exit_date = db.Column(db.DateTime)
 
