@@ -17,10 +17,15 @@ class Position(db.Model):
 
     def is_reserved(self):
         for reservation in self.reservations:
-            print(reservation)
-            created_f = datetime.strftime(reservation.created_at, "%d/%m/%Y")
+            date_f = datetime.strftime(reservation.date, "%d/%m/%Y")
             now_f = datetime.strftime(datetime.now().date(), "%d/%m/%Y")
-            print(created_f == now_f)
-            if created_f == now_f:
+            if date_f > now_f:
                 return True
         return False
+
+    def last_reservation(self):
+        for reservation in self.reservations:
+            date_f = datetime.strftime(reservation.date, "%d/%m/%Y")
+            now_f = datetime.strftime(datetime.now().date(), "%d/%m/%Y")
+            if date_f > now_f:
+                return reservation

@@ -6,49 +6,73 @@
 
 {% block content %}
 <main class="flex-grow-1 d-flex justify-content-center align-items-center">
-    <div class="container">
-        <div class="row">
-            <div class="col parking-bg">
-                <div class="line-dashed" style=""></div>
-                <div class="road"></div>
-                <div class="line-dashed" style=""></div>
-                <div class="parking-container">
-                    {% for position in positions %}
-                        {% if position.reserved %}
-                            <a href="{{ url_for('parkingPage', position=position.code) }}">
-                                <div class="parking-item parking-item-reserved"></div>
-                            </a>
-                        {% elif position.busy %}
-                            <a href="{{ url_for('parkingPage', position=position.code) }}">
-                                <div class="parking-item parking-item-busy"></div>
-                            </a>
-                        {% else %}
-                            <a href="{{ url_for('parkingPage', position=position.code) }}">
-                                <div class="parking-item parking-item-available"></div>
-                            </a>
-                        {% endif %}
-                    {%endfor%}
-                </div>
-            </div>
-            {% if specified_position %}
-                <aside class="p-4">
-                    <h2 class="text-center">Details</h2>
-                    <span>Position: <strong>{{ specified_position.code }}</strong></span>
-                    {% if specified_position.reserved %}
-                        <span class="px-3 py-1 reserved-pill">Reserved</span>
-                    {% elif specified_position.busy %}
-                        <span class="px-3 py-1 busy-pill">Busy</span>
-                    {% else %}
-                        <span class="px-3 py-1 free-pill">Free</span>
-                    {% endif %}
-
-                    {% if not specified_position.reserved %}
-                        <div>
-                            <a class="btn btn-primary btn-lg w-100" href="{{ url_for('reservate', position=specified_position.code) }}">Reservate</a>
-                        </div>
-                    {% endif %}
-                </aside>
+    <div class="container w-auto">
+        <div class="row gap-3">
+            {% if error %}
+                <div class="row alert alert-danger alert-dismissable">{{ error }}</div>
             {% endif %}
+            <div class="row gap-3">
+                <div class="col parking-bg">
+                    <span class="entrance-legend-text">ENTRANCE</span>
+                    <div class="road"></div>
+                    <div class="line-dashed"></div>
+                    <div class="parking-container align-items-center">
+                        <div class="h100 d-flex justify-content-center align-items-center">
+                            <img src="{{ url_for('static', filename='images/tree_top.svg') }}" alt="Tree top">
+                        </div>
+                        {% for position in positions %}
+                            {% if position.is_reserved() %}
+                                <a href="{{ url_for('parking_page', position=position.code) }}">
+                                    <div class="parking-item parking-item-reserved {{ active_position if specified_position.code == position.code else '' }}"></div>
+                                </a>
+                            {% elif position.busy %}
+                                <a href="{{ url_for('parking_page', position=position.code) }}">
+                                    <div class="parking-item parking-item-busy {{ active_position if specified_position.code == position.code else '' }}"></div>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('parking_page', position=position.code) }}">
+                                    <div class="parking-item parking-item-available {{ active_position if specified_position.code == position.code else '' }}"></div>
+                                </a>
+                            {% endif %}
+                        {%endfor%}
+                    </div>
+                </div>
+                {% if specified_position %}
+                    <aside class="col p-4 fs-5 position-details">
+                        <h2 class="text-center fs-4">Details</h2>
+                        <div class="my-3 w-auto row align-items-center gap-4 position-details-info">
+                            <span class="d-block w-auto p-0 reservate-position-id">Position: <strong>{{ specified_position.code }}</strong></span>
+                            {% if specified_position.is_reserved() %}
+                                <span class="d-block w-auto text-dark px-3 py-1 pill reserved-pill">Reserved</span>
+                            {% elif specified_position.busy %}
+                                <span class="d-block w-auto text-dark px-3 py-1 pill busy-pill">Busy</span>
+                            {% else %}
+                                <span class="d-block w-auto text-dark px-3 py-1 pill available-pill">Free</span>
+                            {% endif %}
+                        </div>
+
+                        {% if not specified_position.is_reserved() %}
+                            <form class="container-fluid p-0 mt-5" method="post" action="{{ url_for('reservate') }}">
+                                <h2 class="text-center fs-4 mb-3">Reservate</h2>
+                                <input type="hidden" name="position" value="{{ specified_position.id }}">
+                                <div class="d-flex align-items-center gap-3 m-auto position-reservate-vehicle">
+                                    <div>
+                                        <label for="vehicle-selector">Vehicle:</label>
+                                    </div>
+                                    <div>
+                                        <select class="form-select" name="vehicle" id="vehicle-selector">
+                                            {% for vehicle in user.vehicles %}
+                                                <option value="{{ vehicle.id }}">{{ vehicle.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="mt-3 btn btn-primary btn-lg w-100">Reservate</button>
+                            </form>
+                        {% endif %}
+                    </aside>
+                {% endif %}
+            </div>
         </div>
     </div>
 </main>

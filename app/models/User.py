@@ -14,8 +14,8 @@ class User(db.Model):
     fullname = db.Column(String(255), nullable=False)
     contact = db.Column(Integer(), nullable=False)
     role_id = db.Column(db.ForeignKey("roles.id"))
-    role = db.relationship("Role", back_populates="users")
-    vehicles = db.relationship("Vehicle", back_populates="user")
+    role = db.relationship("Role", backref="users")
+    vehicles = db.relationship("Vehicle", backref="user")
 
     def to_dict(self, vehicle=True):
         data = { 'email': self.email, 'role': self.role.role, 'fullname': self.fullname, 'contact': self.contact }

@@ -9,6 +9,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     repeat_password = PasswordField('Repeat_password', validators=[DataRequired()])
     contact = IntegerField('Contact', validators=[DataRequired()])
+    car_name = StringField('Car name', validators=[DataRequired()])
     car_plate = StringField('Car_plate', validators=[DataRequired()])
     submit = SubmitField('Register')
 

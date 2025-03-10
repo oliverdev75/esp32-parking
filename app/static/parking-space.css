@@ -1,13 +1,13 @@
 .parking-bg {
     background: #233B61;
-    padding: 50px 40px;
+    padding: 10px 40px;
 }
 
 .parking-container {
+    width: auto;
     margin: 10px 0;
     display: flex;
-    justify-content: end;
-    gap: 10px;
+    gap: 20px;
 }
 
 .parking-item {
@@ -27,7 +27,8 @@
     transition: background-color 500ms;
 }
 
-.parking-item-avaliable:hover
+.parking-item-available:hover,
+.active-available
 {
     background-color: #7EFFA5;
 }
@@ -38,7 +39,8 @@
     transition-timing-function: ease-out;
     transition: background-color 500ms;
 }
-.parking-item-reserved:hover
+.parking-item-reserved:hover,
+.active-reserved
 {
     background-color: #FFFF7E;
 }
@@ -49,10 +51,45 @@
     transition-timing-function: ease-out;
     transition: background-color 500ms;
 }
-.parking-item-busy:hover
+.parking-item-busy:hover,
+.active-busy
 {
     background-color: #FF7E7E;
 }
+
+.position-details {
+    background: #233B61;
+}
+
+.position-reservate-vehicle {
+    width: fit-content;
+}
+
+.pill {
+    padding: 10px 20px;
+    border-radius: 7px;
+}
+
+.reserved-pill {
+    background: #FFFF7E;
+}
+
+.available-pill {
+    background: #7EFFA5;
+}
+
+.busy-pill {
+    background: #FF7E7E;
+}
+
+.reservate-position-id {
+    height: fit-content !important;
+}
+
+.position-details-info {
+    width: fit-content;
+}
+
 /*
  * Parking Item Variations END 
  */
@@ -61,8 +98,20 @@
     height: 128px;
     background-color: white;
     margin: 10px 0;
+    position: relative;
+    top: 1px;
 }
 
 .line-dashed {
     border-bottom: dashed black 4px;
+}
+
+.entrance-legend-text {
+    position: relative;
+    top: 85px;
+    left: -65px;
+    display: inline-block;
+    color: red !important;
+    font-size: 1.1rem;
+    rotate: -90deg;
 }

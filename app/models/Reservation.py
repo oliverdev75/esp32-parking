@@ -1,15 +1,17 @@
 from sqlalchemy import DateTime
 from dataclasses import dataclass
+from datetime import datetime
 from app import db
 
 @dataclass
 class Reservation(db.Model):
     __tablename__ = 'reservations'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     vehicle_id = db.Column(db.ForeignKey('vehicles.id'), primary_key=True)
     position_id = db.Column(db.ForeignKey('positions.id'), primary_key=True)
-    created_at = db.Column(DateTime)
+    date = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(DateTime, default=datetime.now(), nullable=False)
 
     def __repr__(self):
         return f'<Reservation {self.vehicle_id}, {self.position_id}, {self.created_at}>'
