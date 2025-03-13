@@ -35,7 +35,7 @@ def login():
         form=form,
         message=message,
         message_type=message_type,
-        logged=False
+        user=session.get('user'),
     )
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -50,12 +50,14 @@ def register():
         repeat_password = form.repeat_password.data
         if user:
             return render_template('register.html',
+               form=form,
                message="User already exists!",
                message_type="danger"
             )
 
         if password != repeat_password:
             return render_template('register.html',
+               form=form,
                message="Passwords don't match!",
                message_type="danger"
             )
@@ -78,7 +80,7 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-    return render_template('register.html')
+    return render_template('register.html', form=form, user=session.get('user'))
 
 
 @app.route('/logout')

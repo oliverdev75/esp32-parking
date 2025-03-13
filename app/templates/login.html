@@ -22,9 +22,23 @@
             {{ form.hidden_tag() }}
             <div class="mb-3 flex gx-3">
                 {{ form.email(class_="form-control form-control-lg", placeholder="Email") }}
+                {% if form.email.errors %}
+                    <ul style="list-style: none">
+                        {% for error in form.errors %}
+                            <li class="text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <div class="mb-3 flex gx-3">
                 {{ form.password(class_="form-control form-control-lg", placeholder="Password") }}
+                {% if form.password.errors %}
+                    <ul style="list-style: none">
+                        {% for error in form.errors %}
+                            <li class="text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             {{ form.submit(class_="btn btn-primary btn-lg w-100 login-button") }}
         </form>
