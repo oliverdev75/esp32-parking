@@ -31,11 +31,10 @@ def check_plate(plate):
 @app.route('/vehicle/create', methods=['POST'])
 @auth
 def vehicle_create():
-    form = VehicleForm()
-    if form.validate_on_submit():
-        plate = form.plate_number.data
+    if request.method == 'POST':
+        plate = request.form['plate_number']
         if check_plate(plate):
-            name = form.name.data
+            name = request.form['name']
             user = db.session.query(User).filter_by(id = session['user']).first()
             Vehicle(name=name, plate_number=plate, user=user)
             db.session.commit()
@@ -47,11 +46,10 @@ def vehicle_create():
 @app.route('/vehicle/update', methods=['POST'])
 @auth
 def vehicle_update():
-    form = VehicleForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        plate = form.plate_number.data
-        vehicle_id = form.id.data
+    if request.method == 'POST':
+        name = request.form['name']
+        plate = request.form['plate_number']
+        vehicle_id = request.form['id']
         if not check_plate(plate):
             session['error'] = "Plate number already exists."
             return redirect(url_for('vehicles'))

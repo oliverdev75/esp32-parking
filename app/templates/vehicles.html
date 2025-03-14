@@ -20,7 +20,7 @@
                     </form>
                 </div>
                 <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#vehicle-create-edit-create">Create</button>
-                {{ create_edit_vehicle(id="create", form=form) }}
+                {{ create_edit_vehicle(id="create", form=form, url=url_for('vehicle_create')) }}
             </div>
             <ul class="mt-4 d-flex flex-column gap-2 vehicles-list p-0">
                 {% for vehicle in user.vehicles %}
@@ -33,7 +33,7 @@
                             <button class="btn btn-primary btn-icon-site" data-bs-toggle="modal" data-bs-target="#vehicle-create-edit-{{ vehicle.id }}">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            {{ create_edit_vehicle(vehicle.id, form, vehicle) }}
+                            {{ create_edit_vehicle(id=vehicle.id, form=form, data=vehicle, url=url_for('vehicle_update')) }}
                             <button class="btn btn-danger btn-icon-site" data-bs-toggle="modal" data-bs-target="#vehicle-delete-{{ vehicle.id }}">
                                 <i class="bi bi-trash"></i>
                             </button>
