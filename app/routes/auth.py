@@ -6,6 +6,7 @@ from app.models.Role import Role
 from flask import render_template, redirect, url_for, session, make_response
 from app.forms.LoginForm import LoginForm
 from app.models.Vehicle import Vehicle
+from app.helpers import encrypt
 import bcrypt
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -20,8 +21,7 @@ def login():
         if user:
             if bcrypt.checkpw(password.encode(), user.password.encode()):
                 session['user'] = user.id
-                res = redirect(url_for('index'))
-                return res
+                return redirect(url_for('index'))
             else:
                 message = "Password wrong!"
                 message_type = "danger"
@@ -62,7 +62,6 @@ def register():
                message_type="danger"
             )
         name = form.name.data
-        fullname = form.fullname.data
         contact = form.contact.data
         car_name = form.car_name.data
         car_plate = form.car_plate.data
@@ -70,8 +69,7 @@ def register():
         user = User(
             email=form_email,
             name=name,
-            password=password,
-            fullname=fullname,
+            password=encrypt(password),
             contact=contact,
             role_id=role_id
         )
@@ -79,6 +77,7 @@ def register():
         user.vehicles.append(vehicle)
         db.session.add(user)
         db.session.commit()
+        return redirect(url_for('parking_page'))
 
     return render_template('register.html', form=form, user=session.get('user'))
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'components/macros.html' import create_edit_vehicle %}
 
 {% block title %}
     Vehicles
@@ -11,45 +12,28 @@
             {% if error %}
                 <div class="alert alert-danger alert-dismissable">{{ error }}</div>
             {% endif %}
-            <ul class="mt-4 d-flex flex-column gap-2 vehicles-list">
+            <div class="py-2 d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                    <form method="get" class="d-flex gap-3">
+                        <input type="text" class="form-control" placeholder="Search by plate..." aria-label="Plate code">
+                        <button type="submit" class="btn btn-lg btn-secondary">Search</button>
+                    </form>
+                </div>
+                <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#vehicle-create-edit-create">Create</button>
+                {{ create_edit_vehicle(id="create", form=form) }}
+            </div>
+            <ul class="mt-4 d-flex flex-column gap-2 vehicles-list p-0">
                 {% for vehicle in user.vehicles %}
-                    <li class="px-3 py-3 d-flex justify-content-between rounded-4 vehicle-item">
+                    <li class="d-flex justify-content-between rounded-4 vehicle-item" style="padding: 15px 20px">
                         <div class="d-flex gap-4 align-items-center">
                             <span class="fw-bold">{{ vehicle.plate_number }}</span>
                             <span>{{ vehicle.name }}</span>
                         </div>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-primary btn-icon-site" data-bs-toggle="modal" data-bs-target="#vehicle-edit-{{ vehicle.id }}">
+                            <button class="btn btn-primary btn-icon-site" data-bs-toggle="modal" data-bs-target="#vehicle-create-edit-{{ vehicle.id }}">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <div id="vehicle-edit-{{ vehicle.id }}" class="modal">
-                              <div class="modal-dialog modal-dialog-centered">
-                                <form method="post" action="{{ url_for('vehicle_update') }}">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Edit vehicle</h5>
-                                            <button type="button" class="btn justify-self-end" data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="bi bi-x-lg fs-4"></i>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Name: </label>
-                                                <input type="text" class="form-control" name="name" id="name" value="{{ vehicle.name}}">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="plate-number" class="form-label">Plate number: </label>
-                                                <input type="text" class="form-control" name="plate_number" id="plate-number" value="{{ vehicle.plate_number}}">
-                                            </div>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                      </div>
-                                    </div>
-                                </form>
-                              </div>
-                            </div>
+                            {{ create_edit_vehicle(vehicle.id, form, vehicle) }}
                             <button class="btn btn-danger btn-icon-site" data-bs-toggle="modal" data-bs-target="#vehicle-delete-{{ vehicle.id }}">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -66,7 +50,7 @@
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <form method="post" action="{{ url_for('vehicle_delete') }}">
                                       <input type="hidden" name="vehicle" value="{{ vehicle.id }}">
-                                      <button type="button" class="btn btn-danger">Delete</button>
+                                      <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                   </div>
                                 </div>

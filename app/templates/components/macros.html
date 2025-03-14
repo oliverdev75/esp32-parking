@@ -1,0 +1,35 @@
+
+
+{% macro create_edit_vehicle(id, form, data = None) %}
+    <div id="vehicle-create-edit-{{ id }}" class="modal">
+      <div class="modal-dialog modal-dialog-centered">
+        <form method="post" action="{{ url_for('vehicle_update') if data else url_for('vehicle_create') }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'Edit' if data else 'Create' }} vehicle</h5>
+                    <button type="button" class="btn justify-self-end" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-lg fs-4"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if data %}
+                        {{ form.id(value=id) }}
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name: </label>
+                        {{ form.name(class_="form-control", value=data.name if data else '') }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="plate-number" class="form-label">Plate number: </label>
+                        {{ form.plate_number(class_="form-control", value=data.plate_number if data else '') }}
+                    </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                {{ form.submit(class_="btn btn-info", value='Edit' if data else 'Create') }}
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+{% endmacro %}

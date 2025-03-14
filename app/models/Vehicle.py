@@ -24,6 +24,6 @@ class Vehicle(db.Model):
             date_f = datetime.strftime(reservation.date, "%d/%m/%Y")
             now_f = datetime.strftime(datetime.today(), "%d/%m/%Y")
             if date_f > now_f:
-                print("In func: ", date_f > now_f)
                 result = True
+                break
         return result

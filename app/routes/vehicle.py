@@ -1,4 +1,5 @@
-from flask import session, redirect, render_template, url_for
+from flask import session, redirect, render_template, url_for, request
+from app.decorators import auth
 from app import app, db
 from app.models.User import User
 from app.models.Vehicle import Vehicle
@@ -9,21 +10,77 @@ def vehicles():
     if 'user' not in session:
         return redirect(url_for('login'))
     user = db.session.query(User).filter_by(id = session['user']).first()
-
+    form = VehicleForm()
+    error = None
+    if session.get('error'):
+        error = session.get('error')
+        session.pop('error')
     return render_template('vehicles.html',
-        error=session.get('error'),
+        error=error,
         user=user,
+        form=form
     )
 
-@app.route('/vehicles/create', methods=['POST'])
+def check_plate(plate):
+    vehicle = db.session.query(Vehicle).filter_by(plate_number=plate).first()
+    if vehicle:
+        session['error'] = "Plate number already exists."
+        return False
+    return True
+
+@app.route('/vehicle/create', methods=['POST'])
+@auth
 def vehicle_create():
-    if 'user' not in session:
-        return redirect(url_for('login'))
+    form = VehicleForm()
+    if form.validate_on_submit():
+        plate = form.plate_number.data
+        if check_plate(plate):
+            name = form.name.data
+            user = db.session.query(User).filter_by(id = session['user']).first()
+            Vehicle(name=name, plate_number=plate, user=user)
+            db.session.commit()
+        else:
+            session['error'] = "Plate number already exists."
+        return redirect(url_for('vehicles'))
+    return redirect(url_for('vehicles'))
+
+@app.route('/vehicle/update', methods=['POST'])
+@auth
+def vehicle_update():
     form = VehicleForm()
     if form.validate_on_submit():
         name = form.name.data
-        plate_number = form.plate_number.data
-        plate_check = db.session.query(Vehicle).filter_by(plate_number = plate_number).first()
-        if plate_check:
+        plate = form.plate_number.data
+        vehicle_id = form.id.data
+        if not check_plate(plate):
             session['error'] = "Plate number already exists."
+            return redirect(url_for('vehicles'))
+        vehicle = db.query(Vehicle).filter_by(id = vehicle_id).first()
+        if vehicle:
+            vehicle.name = name
+            vehicle.plate_number = plate
+            db.session.commit()
+            return redirect(url_for('vehicles'))
+    return redirect(url_for('vehicles'))
+
+@app.route('/vehicle/delete', methods=['POST'])
+@auth
+def vehicle_delete():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        vehicle_id = request.form['vehicle']
+        vehicles = db.session.query(Vehicle).filter_by(user_id = session['user']).all()
+        if len(vehicles) == 1:
+            session['error'] = "You just have one vehicle, cannot delete it."
+            return redirect(url_for('vehicles'))
+        vehicle = db.session.query(Vehicle).filter_by(id = vehicle_id).first()
+        for reservation in vehicle.reservations:
+            db.session.delete(reservation)
+        for log in vehicle.logs:
+            db.session.delete(log)
+        db.session.commit()
+        if vehicle:
+            db.session.delete(vehicle)
+            db.session.commit()
             return redirect(url_for('vehicles'))

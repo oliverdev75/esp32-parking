@@ -5,16 +5,24 @@
 }
 
 .parking-container {
-    width: auto;
-    display: flex;
-    gap: 20px;
+    height: 600px;
+    width: 1000px;
+    background: url("/static/images/parking_mapview.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .parking-item {
     border-radius: 25px;
     background-color: black;
     height: 120px;
-    width: 300px;
+    width: 190px;
+}
+
+.positions-container {
+    top: 300px;
+    gap: 80px;
 }
 
 /*
@@ -88,6 +96,50 @@
 
 .position-details-info {
     width: fit-content;
+}
+
+.status-progress-bar-container {
+    height: 70px;
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(75, 73, 73, 0.5);
+}
+
+.red-lines-bg,
+.green-bg,
+.status-progress-bar,
+.status-progress-bar-line {
+    width: 100%;
+    height: 100%;
+}
+
+.red-lines-bg {
+    border-radius: 15px;
+    background: url("/static/images/progressbar_lines_red.png");
+    background-position: 29px;
+}
+
+.status-progress-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 15px;
+    background: url("/static/images/progressbar_lines_green.png");
+}
+
+.status-progress-bar-line {
+    border-radius: 15px;
+    background: #FF7E7E;
+}
+
+.green-bg {
+    border-radius: 15px;
+    background: rgba(113, 230, 148, 0.5);
+}
+
+.status-progress-bar-percentage {
+    transform: translate(-50%, -50%);
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.75);
 }
 
 /*

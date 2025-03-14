@@ -4,15 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Some changes">
+    <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Register in progress">
+      <change afterPath="$PROJECT_DIR$/app/decorators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/components/macros.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forms/RegisterForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/RegisterForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forms/VehicleForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms/VehicleForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/User.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/Vehicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Vehicle.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routes/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/parking.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/parking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/vehicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/vehicle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/images/Parking_MapView.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/images/parking_mapview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/images/tree_bottom.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/images/tree_top.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/parking-space.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/parking-space.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/navBar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navBar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/parking.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/parking.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/vehicles.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/vehicles.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -123,6 +135,7 @@
       <recent name="$PROJECT_DIR$/app/models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates" />
       <recent name="$PROJECT_DIR$/app/routes" />
       <recent name="$PROJECT_DIR$/app" />
       <recent name="$PROJECT_DIR$/app/forms" />
@@ -217,6 +230,10 @@
       <workItem from="1741677337192" duration="2169000" />
       <workItem from="1741720541261" duration="2863000" />
       <workItem from="1741807921951" duration="943000" />
+      <workItem from="1741853980534" duration="9002000" />
+      <workItem from="1741879299633" duration="8292000" />
+      <workItem from="1741942618897" duration="13609000" />
+      <workItem from="1741959166565" duration="1557000" />
     </task>
     <task id="LOCAL-00001" summary="Some changes">
       <option name="closed" value="true" />
@@ -242,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739204737728</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Register in progress">
+      <option name="closed" value="true" />
+      <created>1741854147749</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741854147749</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -262,7 +287,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Some changes" />
     <MESSAGE value="Console commands changed to Flask" />
-    <option name="LAST_COMMIT_MESSAGE" value="Console commands changed to Flask" />
+    <MESSAGE value="Register in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="Register in progress" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

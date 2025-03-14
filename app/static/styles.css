@@ -1,4 +1,4 @@
-*:not(input, select, option),
+*:not(input, select, option, .alert, .reserved-pill),
 .btn-close {
     color: white !important;
 }
@@ -12,7 +12,8 @@ html, body {
 body {
     font-family: 'Roboto', sans-serif;
     background-image: url("images/BackgroundMountains.png");
-    background-size: cover;
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 
 
