@@ -12,6 +12,10 @@ from app.models.Reservation import Reservation
 def index():
     return redirect(url_for('parking_page'))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('notfound.html')
+
 @app.route('/parking', methods=['GET', 'POST'])
 @auth
 def parking_page():

@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="504bab60-ad44-4cc1-acb0-bba423b7bf7f" name="Changes" comment="Register in progress">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797/storage_v2/_src_/schema/parking_db.ZYL7JQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/78a934ae-37eb-4190-bcd4-f7ba8bf08797/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/vehicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/vehicle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/components/macros.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/components/macros.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/floor1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/floor2.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +215,7 @@
       <workItem from="1741879299633" duration="8292000" />
       <workItem from="1741942618897" duration="13609000" />
       <workItem from="1741959166565" duration="1557000" />
-      <workItem from="1741962568601" duration="677000" />
+      <workItem from="1741962568601" duration="1104000" />
     </task>
     <task id="LOCAL-00001" summary="Some changes">
       <option name="closed" value="true" />
